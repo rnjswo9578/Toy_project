@@ -41,6 +41,19 @@
         }
     </style>
     <script>
+      function save_post() {
+        let title = $("#title").val();
+        let content = $("#content").val();
+
+        let formData = new FormData();
+        formData.append("title_give", title);
+        formData.append("content_give", content);
+
+        fetch('/board', {method:"POST", body: formData,}).then((res) => res.json()).then((data) => {
+            alert(data["msg"]);
+            window.location.reload();
+          });
+      }        
     </script>
 </head>
 
@@ -65,7 +78,7 @@
                             placeholder="내용을 입력해 주세요" style="border: none; background: transparent; font-size: 1.5em;" ></textarea>
                     </div>
                     <div style="text-align: center;">
-                        <button onclick="posting()" type="button" class="btn btn-dark">저장</button>
+                        <button onclick="save_post()" type="button" class="btn btn-dark">저장</button>
                         <button onclick="location.href='index.html'"; type="button" class="btn btn-outline-dark">닫기</button>
                     </div>
                 </div>
