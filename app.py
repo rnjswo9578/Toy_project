@@ -66,7 +66,11 @@ def sign_in():
 def simplelogin():
     return render_template('simplelogin.html')
     
-@app.route("/board", methods=["POST"])
+@app.route('/board')
+def board():
+    return render_template('board.html')
+
+@app.route("/board/save", methods=["POST"])
 def save_post():
     title_receive = request.form["title_give"]
     content_receive = request.form["content_give"]
