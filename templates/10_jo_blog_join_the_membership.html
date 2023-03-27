@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+</html>
+
+<head>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+
+        body {
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .join-wrapper {
+            width: 400px;
+            height: 350px;
+            padding: 40px;
+            box-sizing: border-box;
+            display: table;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+
+        .join-wrapper>h2 {
+            font-size: 24px;
+            color: #00ffff;
+            margin-bottom: 20px;
+        }
+
+        #join-form>input {
+            width: 100%;
+            height: 48px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            background-color: #F8F8F8;
+        }
+
+        #join-form>input::placeholder {
+            color: #D2D2D2;
+        }
+
+        #join-form>input[type="button"] {
+            color: #fff;
+            font-size: 16px;
+            background-color: #3ec5f1;
+            margin-top: 20px;
+        }
+
+        #join-form>input[type="checkbox"] {
+            display: none;
+        }
+
+        #join-form>label {
+            color: #999999;
+        }
+
+        #join-form input[type="checkbox"]+label {
+            cursor: pointer;
+            padding-left: 26px;
+            background-image: url("checkbox.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        #join-form input[type="checkbox"]:checked+label {
+            background-image: url("checkbox-active.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+    </style>
+<script type="text/javascript">
+    function test(){
+      var p1 = document.getElementById('pw').value;
+      var p2 = document.getElementById('pwCheck').value;
+      
+      if(p1.length < 6) {
+              alert('입력한 글자가 6글자 이상이어야 합니다.');
+              return false;
+          }
+          
+          if( p1 != p2 ) {
+            alert("비밀번호불일치");
+            return false;
+          } else{
+            alert("비밀번호가 일치합니다");
+            return true;
+          }
+    }
+  </script>
+
+    <title> 블로그 | 회원가입 </title>
+</head>
+
+<body>
+
+    <body>
+        <div class="join-wrapper">
+            <h2>회원가입</h2>
+            <form method="post"  id="join-form">
+                <input type="text" name="user_id" placeholder="아이디">
+                <input type="password" name="pw" placeholder="비밀번호">
+                <input type="password" name="pwCheck" placeholder="비밀번호확인">
+                <input type="text" name="username" placeholder="이름">
+                <input type="text" name="nickname" placeholder="닉네임">
+                <input type="text" name="userbirth" placeholder="생년월일">
+                <input type="text" name="userphone" placeholder="휴대폰">
+                <input type="text" name="userEmail" placeholder="이메일">
+                <label for="remember-check">
+                    <h5><input type="checkbox" id="remember-check">개인 회원 약관에 동의
+                </label>
+                <h5><input type="checkbox" id="remember-check">개인정보 수집 및 이용에 동의</h5>
+                <h5><input type="checkbox" id="remember-check">마케팅 정보 수신 동의</h5>
+                </label>
+                <input type="button" value="가입 하기" onclick="test()">
+            </form>
+        </div>
+    </body>
+</body>
