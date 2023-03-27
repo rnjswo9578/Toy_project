@@ -29,8 +29,16 @@
             width: 80%;
             margin-left: auto;
             margin-right: auto;
+            
         }
 
+        hr.line {
+            width: 6%;
+            border: 0;
+            height: 8px;
+            margin-left: 0px;
+            /* margin-right: auto; */
+        }
     </style>
     <script>
     </script>
@@ -40,18 +48,19 @@
     <div class="mytitle">
         <h1>블로그</h1>
     </div>
-    <hr width="90%" color="black">
+    <hr>
     <div class="mypost" id="post-box">
 
         <body>
             <article>
                 <div class="container" role="main">
                     <div class="mb-3">
-                        <label for="title">제목</label>
+                        <!-- <label for="title">제목</label> -->
                         <input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해 주세요"  style="border: none; background: transparent;font-size: 2.5em;">
+                        <hr class = line>
                     </div>
                     <div class="mb-3">
-                        <label for="content">내용</label>
+                        <!-- <label for="content">내용</label> -->
                         <textarea class="form-control" rows="5" name="content" id="content"
                             placeholder="내용을 입력해 주세요" style="border: none; background: transparent; font-size: 1.5em;" ></textarea>
                     </div>
