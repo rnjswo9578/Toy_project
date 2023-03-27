@@ -5,11 +5,12 @@ from pymongo import MongoClient
 import jwt
 import hashlib
 from datetime import datetime, timedelta
+import certifi
 
 SECRET_KEY = 'secret_key'
 
 
-client = MongoClient('mongodb+srv://sparta:test@cluster0.icwksk1.mongodb.net/?retryWrites=true&w=majority')
+client = MongoClient('mongodb+srv://sparta:test@cluster0.icwksk1.mongodb.net/?retryWrites=true&w=majority' ,tlsCAFile=certifi.where())
 db = client.dbsparta
 app = Flask(__name__)
 
