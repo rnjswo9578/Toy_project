@@ -4,39 +4,41 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>10TEAM_Blog Log-in</title>
-    <!-- 타이틀 뭘루...? -->
+    <title>로그인</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR&family=Open+Sans:ital,wght@0,300;0,400;1,300&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./login_yonghwan.css" />
+    <link rel="stylesheet" href="./login.css" />
   </head>
 
   <body>
-    <header class="yong-header">
-      <h1 class="yong-header__title">Welcome Hanghae99 10TEAM_Blog</h1>
-      <p class="yong-header__text">
-        If you have a Hanghae99 10TEAM_Blog account, log in with your email
+    <header class="header">
+      <h1 class="header__title">Welcome Hanghae99 10TEAM_Blog</h1>
+      <p class="header__text">
+        If you have a Yonghwan world account, log in with your email
       </p>
     </header>
     <div class="login-form">
       <form>
         <input
           type="text"
-          name="email"
+          name="userID"
+          id="userID"
           class="text-field"
           placeholder="아이디"
         />
         <input
-          type="text"
-          name="password"
+          type="password"
+          name="userPW"
+          id="userPW"
           class="text-field"
           placeholder="비밀번호"
         />
-        <input type="submit" value="로그인" class="submit-btn" />
+        <a href="#none"><button id="btn_login" disabled>로그인</button></a>
       </form>
     </div>
   </body>
