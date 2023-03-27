@@ -65,7 +65,19 @@ def sign_in():
 @app.route('/simplelogin')
 def simplelogin():
     return render_template('simplelogin.html')
+    
+@app.route("/board", methods=["POST"])
+def save_post():
+    title_receive = request.form["title_give"]
+    content_receive = request.form["content_give"]
 
+    doc = {
+        'title': title_receive,
+        'content': content_receive
+    }
+
+    db.board.insert_one(doc)
+    return jsonify({'msg':'작성 완료!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
