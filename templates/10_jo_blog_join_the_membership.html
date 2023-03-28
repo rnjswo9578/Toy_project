@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <title>회원가입</title>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <style>
         * {
             padding: 0;
@@ -8,12 +10,52 @@
             border: none;
         }
 
+        html,
         body {
-            font-size: 14px;
-            font-family: 'Roboto', sans-serif;
+            height: 100%;
         }
 
-        .join-wrapper {
+        body {
+            display: flex;
+            align-items: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+        }
+
+        .form-signin .form-floating:focus-within {
+            z-index: 2;
+        }
+
+        .form-signin input[type="top"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="mid"] {
+            margin-top: -1px;
+            border-radius: 0;
+            margin-bottom: -1px;
+        }
+        .form-signin input[type="password"] {
+            margin-top: -1px;
+            border-radius: 0;
+            margin-bottom: -1px;
+        }
+
+        .form-signin input[type="email"] {
+            margin-top: -1px;
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+        }
+
+        /* .join-wrapper {
             width: 400px;
             height: 350px;
             padding: 40px;
@@ -26,7 +68,7 @@
 
         .join-wrapper>h2 {
             font-size: 24px;
-            color: #00ffff;
+            color: #242424;
             margin-bottom: 20px;
         }
 
@@ -71,7 +113,7 @@
             background-image: url("checkbox-active.png");
             background-repeat: no-repeat;
             background-size: contain;
-        }
+        } */
     </style>
 <script type="text/javascript">
     function test(){
@@ -166,10 +208,60 @@
     <title> 블로그 | 회원가입 </title>
 </head>
 
-<body>
-
-    <body>
-        <div class="join-wrapper">
+<body class="text-center">
+    <main class="form-signin w-100 m-auto">
+        <form>
+            <h1 class="h3 mb-3 fw-normal">회원가입</h1>
+    
+            <div class="form-floating">
+                <input type="top" class="form-control" name="user_id" placeholder="ID">
+                <label for="floatingInput">아이디</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" name="pw" placeholder="Password">
+                <label for="floatingPassword">비밀번호</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" name="pwCheck" placeholder="Password">
+                <label for="floatingPassword">비밀번호 확인</label>
+            </div>
+            <div class="form-floating">
+                <input type="mid" class="form-control" name="username" placeholder="Password">
+                <label for="floatingPassword">이름</label>
+            </div>
+            <div class="form-floating">
+                <input type="mid" class="form-control" name="nickname" placeholder="Password">
+                <label for="floatingPassword">닉네임</label>
+            </div>
+            <div class="form-floating">
+                <input type="mid" class="form-control" name="userbirth" placeholder="Password">
+                <label for="floatingPassword">생년월일</label>
+            </div>
+            <div class="form-floating">
+                <input type="mid" class="form-control" name="userphone" placeholder="Password">
+                <label for="floatingPassword">휴대폰 번호</label>
+            </div>
+            <div class="form-floating">
+                <input type="email" class="form-control" name="userEmail" placeholder="Password">
+                <label for="floatingemail">이메일</label>
+            </div>
+    
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me" id="agree3"> 개인 회원 약관에 동의
+                </label>
+                <label>
+                    <input type="checkbox" value="remember-me" id="agree1"> 개인정보 수집 및 이용에 동의
+                </label>
+                <label>
+                    <input type="checkbox" value="remember-me" id="agree2"> 마케팅 정보 수신 동의
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-secondary" type="submit" onclick="test()">가입하기</button>
+            <p class="mt-5 mb-3 text-body-secondary">&copy; 2023–2023</p>
+        </form>
+    
+        <!-- <div class="join-wrapper">
             <h2>회원가입</h2>
             <form method="post"  id="join-form">
                 <input type="text" name="user_id" placeholder="아이디">
@@ -181,14 +273,14 @@
                 <input type="text" name="userphone" placeholder="휴대폰">
                 <input type="text" name="userEmail" placeholder="이메일">
                 <label for="remember-check">
-                    <h5><input type="checkbox" id="agree3">개인 회원 약관에 동의
-                </label>
+                    <h5><input type="checkbox" id="agree3">개인 회원 약관에 동의</h5>
+                
                 <h5><input type="checkbox" id="agree1">개인정보 수집 및 이용에 동의</h5>
                 <h5><input type="checkbox" id="agree2">마케팅 정보 수신 동의</h5>
                 </label>
                 <input type="button" value="가입 하기" onclick="test()">
             </form>
-        </div>
-    </body>
+        </div> -->
+    </main>
 </body>
 </html>
