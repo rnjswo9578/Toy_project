@@ -1,8 +1,5 @@
 <!doctype html>
 <html lang="en">
-
-</html>
-
 <head>
     <style>
         * {
@@ -78,22 +75,75 @@
     </style>
 <script type="text/javascript">
     function test(){
-      var p1 = document.getElementById('pw').value;
-      var p2 = document.getElementById('pwCheck').value;
-      
-      if(p1.length < 6) {
-              alert('입력한 글자가 6글자 이상이어야 합니다.');
-              return false;
-          }
-          
-          if( p1 != p2 ) {
-            alert("비밀번호불일치");
-            return false;
-          } else{
-            alert("비밀번호가 일치합니다");
-            return true;
-          }
+    var id = document.getElementsByName('user_id')[0].value;
+    var pw = document.getElementsByName('pw')[0].value;
+    var pwCheck = document.getElementsByName('pwCheck')[0].value;
+    var username = document.getElementsByName('username')[0].value;
+    var nickname = document.getElementsByName('nickname')[0].value;
+    var userbirth = document.getElementsByName('userbirth')[0].value;
+    var userphone = document.getElementsByName('userphone')[0].value;
+    var userEmail = document.getElementsByName('userEmail')[0].value;
+    var agree1 = document.getElementById('agree1').checked;
+    var agree2 = document.getElementById('agree2').checked;
+    var agree3 = document.getElementById('agree3').checked;
+  
+    if(id == ""){
+        alert("아이디를 입력해주세요.");
+        return false;
     }
+    if(pw == ""){
+        alert("비밀번호를 입력해주세요.");
+        return false;
+    }
+    if(pwCheck == ""){
+        alert("비밀번호확인 을 입력해주세요.");
+        return false;
+    }
+    if(username == ""){
+        alert("이름을 입력해주세요.");
+        return false;
+    }
+    if(nickname == ""){
+        alert("닉네임을 입력해주세요.");
+        return false;
+    }
+    if(userbirth == ""){
+        alert("생년월일을 입력해주세요.");
+        return false;
+    }
+    if(userphone == ""){
+        alert("휴대폰 번호를 입력해주세요.");
+        return false;
+    }
+    if(userEmail == ""){
+        alert("이메일을 입력해주세요.");
+        return false;
+    }
+    if(!agree1){
+        alert("개인정보 수집 및 이용에 동의해주세요.");
+        return false;
+    }
+    if(!agree2){
+        alert("마케팅 정보 수신에 동의해주세요.");
+        return false;
+    }
+    if(!agree3){
+        alert("개인 회원 약관에 동의해주세요.");
+        return false;
+    }
+    
+    if(pw.length < 6) {
+        alert('비밀번호는 6자 이상이어야 합니다.');
+        return false;
+    }
+    
+    if( pw != pwCheck ) {
+        alert("비밀번호가 일치하지 않습니다.");
+        return false;
+    }
+    alert("회원 가입이 완료되었습니다.");
+    return true;
+}
   </script>
 
     <title> 블로그 | 회원가입 </title>
@@ -114,13 +164,14 @@
                 <input type="text" name="userphone" placeholder="휴대폰">
                 <input type="text" name="userEmail" placeholder="이메일">
                 <label for="remember-check">
-                    <h5><input type="checkbox" id="remember-check">개인 회원 약관에 동의
+                    <h5><input type="checkbox" id="agree3">개인 회원 약관에 동의
                 </label>
-                <h5><input type="checkbox" id="remember-check">개인정보 수집 및 이용에 동의</h5>
-                <h5><input type="checkbox" id="remember-check">마케팅 정보 수신 동의</h5>
+                <h5><input type="checkbox" id="agree1">개인정보 수집 및 이용에 동의</h5>
+                <h5><input type="checkbox" id="agree2">마케팅 정보 수신 동의</h5>
                 </label>
                 <input type="button" value="가입 하기" onclick="test()">
             </form>
         </div>
     </body>
 </body>
+</html>
