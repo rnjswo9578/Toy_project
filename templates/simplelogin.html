@@ -15,7 +15,22 @@
     <title></title>
 
     <style>
-        
+        .mypost{
+            width: 200px;
+            height: 200px;
+            border-radius: 10px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #join{
+            background-color: blue;
+            color: white;
+            width: 80px;
+            height: 40px;
+            border-radius: 3px;
+            margin-top: 5px;
+        }
     </style>
     <script>
         function sign_up() {
@@ -23,41 +38,42 @@
         }
 
         function sign_in() {
-            let username = $("#input-username").val()
-            let password = $("#input-password").val()
+        var id = document.getElementById('input-username').value;
+        var pw = document.getElementById('input-password').value;
 
-            if (username == "") {
-                $("#help-id-login").text("아이디를 입력해주세요.")
-                $("#input-username").focus()
-                return;
-            } else {
-                $("#help-id-login").text("")
-            }
+    if(id == ""){
+        alert("아이디를 입력해주세요.");
+        return false;
+    } else {
+        $("#help-id-login").text("")
+    }
 
-            if (password == "") {
-                $("#help-password-login").text("비밀번호를 입력해주세요.")
-                $("#input-password").focus()
-                return;
-            } else {
-                $("#help-password-login").text("")
-            }
+    if(pw == ""){
+        alert("비밀번호를 입력해주세요.");
+        return false;
+    }if(pw.length < 6) {
+        alert('비밀번호는 6자 이상이어야 합니다.');
+        return false;
+    } else {
+        $("#help-password-login").text("")
+    }
 
-            let formData = new FormData();
-            formData.append("username_give", username);
-            formData.append("password_give", password);
-            fetch('/sign_in', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
-                console.log(data['result'])
-                if (data['result'] == 'success') {
-                    // 쿠키에 로그인 토큰을 저장
-                    setCookie('mytoken', data['token'],data['token']['exp']);
-                    // $.cookie('mytoken', data['token'], {path: '/'});
-                    alert("로그인 성공")
-                    window.location.replace("/simplelogin2")
-                } else {
-                    alert(data['msg'])
-                }
-            });
+    let formData = new FormData();
+    formData.append("username_give", id);
+    formData.append("password_give", pw);
+    fetch('/sign_in', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+        console.log(data['result'])
+        if (data['result'] == 'success') {
+            // 쿠키에 로그인 토큰을 저장
+            setCookie('mytoken', data['token'],data['token']['exp']);
+            // $.cookie('mytoken', data['token'], {path: '/'});
+            alert("로그인 성공")
+            window.location.replace("/simplelogin2")
+        } else {
+            alert(data['msg'])
         }
+    });
+}
         function setCookie(key, value, expiredays) {
             let todayDate = new Date();
             todayDate.setDate(todayDate.getDate() + expiredays);
@@ -69,6 +85,7 @@
 <body>
     <div class="mypost" id="post-box">
         <div>
+            <h5></h5>
             <label>ID</label>
             <input id="input-username" class="form-control" placeholder="아이디 입력">
         </div>
@@ -77,7 +94,7 @@
             <input id="input-password" class="form-control" placeholder="비밀번호 입력">
         </div>
         <button type="button" class="btn btn-primary" onclick="sign_in()">로그인</button>
-        <button onclick="sign_up()">회원가입</button>
+        <button type="button" id="join" onclick="sign_up()">회원가입</button>
     </div>
 </body>
 
