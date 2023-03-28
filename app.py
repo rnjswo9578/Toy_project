@@ -79,6 +79,11 @@ def simplelogin():
 @app.route('/board')
 def board():
     return render_template('board.html')
+    
+@app.route("/board/show", methods=["GET"])
+def board_get():
+    all_content = list(db.board.find({},{'_id':False}))
+    return jsonify({'result':all_content})
 
 @app.route("/board/save", methods=["POST"])
 def save_post():
