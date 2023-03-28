@@ -86,7 +86,7 @@ def save_post():
     token_receive = request.cookies.get('mytoken')
     title_receive = request.form["title_give"]
     content_receive = request.form["content_give"]
-    now = datetime.now()
+    now = str(datetime.now().date())
 
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
@@ -94,11 +94,11 @@ def save_post():
             'title': title_receive,
             'content': content_receive,
             'id': payload['id'],
-            'date':now.date()
+            'date': now
         }
         db.board.insert_one(doc)
 
-        print(payload)
+
         return jsonify({'msg':'작성 완료!'})
     except jwt.ExpiredSignatureError:
         return render_template('index.html')
@@ -137,6 +137,20 @@ def login_index():
 @app.route('/login_sign_up')
 def login_sign_up():
     return render_template('10_jo_blog_join_the_membership.html')
+
+@app.route("/post", methods=["GET"])
+def post_get():
+    token_receive = request.cookies.get('mytoken')
+        
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        print(payload)
+        posts = list(db.board.find({'id': payload['id']},{'_id':False}))
+        return jsonify({'result':posts})
+    except jwt.ExpiredSignatureError:
+        return render_template('index.html')
+    except jwt.exceptions.DecodeError:
+        return render_template('index.html')
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

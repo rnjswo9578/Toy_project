@@ -54,6 +54,35 @@
         function board() {
             window.location.href = '/board'
         }
+        $(document).ready(function () {
+            listing();
+        });
+
+        function listing() {
+            fetch('/post').then((res) => res.json()).then((data) => {
+
+                $('#cardbox').empty()
+                let rows = data['result']
+                console.log(rows)
+                rows.forEach(element => {
+                    let title = element['title']
+                    let comment = element['comment']
+                    let id = element['id']
+                    let date = element['date']
+
+                    let tmphtml = `<div class="card" style="width: 18rem;">
+                                        <div class="card-body">
+                                        <h5 class="card-title">${title}</h5>
+                                        <p class="card-text">${comment}</p>
+                                        <p class="card-date">${date}</p>
+                                        <p class="card-id">${id}</p>
+                                        <button href="#" class="btn btn-primary">Go somewhere</a>
+                                        </div>
+                                    </div>`
+                    $('#cardbox').append(tmphtml)
+                });
+            })
+        }
     </script>
 </head>
 
@@ -68,33 +97,12 @@
     </div>
     <hr class="line">
     <br>
-    <div class="container">
+    <div class="container" id="cardbox">
         <div class="card" style="width: 18rem;">
             <div class="card-body">
               <h5 class="card-title">Card title</h5>
               <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+              <button href="#" class="btn btn-primary">Go somewhere</a>
             </div>
         </div>
     </div>
