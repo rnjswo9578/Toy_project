@@ -49,8 +49,61 @@
         border: solid 2px;
         margin: 30px auto 0px auto;
     }
+    div {
+        padding: 10px;
+    }
+    h1 {
+            display: block;
+            font-size: 3em;
+            margin-top: 0.67em;
+            margin-bottom: 0.67em;
+            margin-left: 8%;
+            margin-right: 0;
+            font-weight: bold;
+        }
+    hr {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        
+    }
+
+    hr.line {
+        width: 6%;
+        border: 0;
+        height: 8px;
+        margin-left: 0px;
+        /* margin-right: auto; */
+    }    
+    #btn {
+        margin-bottom: 40px;
+    }
+    #btn1 {
+        margin-left: 4px;
+    }    
     </style>
     <script>
+      $(document).ready(function () {
+        show_content();
+      });        
+
+      function show_content() {
+        fetch('/board/show').then((res) => res.json()).then((data) => {
+            let rows = data['result']
+            rows.sort(() => Math.random() - 0.5);
+		    $("#content-list").empty()
+            rows.forEach((a) => {
+              let title = a['title']
+              let content = a['content']
+
+              let temp_html = `<div class="item">
+                                        <h2>${title}</h2>
+                                        <h5>${content}</h5>
+                               </div>`
+              $("#content-list").append(temp_html)
+            })
+          })
+      }        
         function login() {
             window.location.href = '/index'
         }
@@ -58,21 +111,31 @@
 </head>
 
 <body>
-    <div class="navbar">
-        <div class="navbar_name">
-            <a class="navbar_name1" href="#">블로그</a>
-        </div>
-        <div class="navbar_item">
-            <button class="navbar_item1">새 글 작성</button>
-            <button class="navbar_item2" onclick="login()">로그인</button>
-        </div>
+    <div class="mytitle">
+        <h1>블로그</h1>
     </div>
-    <hr class="line">
-    <div class="container">
-        <div class="item">1</div>
-        <div class="item">2</div>
-        <div class="item">3</div>
-        <div class="item">4</div>
+        <div class="navbar_item" id="btn">
+            <button type="button" class="btn btn-dark" style="float: right"; id="btn1" onclick="login()">로그인</button>
+        </div>  
+    </div>
+    <hr>  
+    <div class="container" id="content-list">
+        <div class="item">
+            <h2>제목</h2>
+            <h5>내용</h5>
+        </div>
+        <div class="item">
+            <h2>제목</h2>
+            <h5>내용</h5>
+        </div>
+        <div class="item">
+            <h2>제목</h2>
+            <h5>내용</h5>
+        </div>
+        <div class="item">
+            <h2>제목</h2>
+            <h5>내용</h5>
+        </div>
     </div>
 </body>
 
