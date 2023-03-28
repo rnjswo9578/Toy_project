@@ -15,7 +15,86 @@
     <title></title>
 
     <style>
-        
+        * {
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+
+        body {
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .join-wrapper {
+            width: 500px;
+            height: 350px;
+            padding: 40px;
+            box-sizing: border-box;
+            display: table;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+
+        .join-wrapper>h2 {
+            font-size: 24px;
+            color: #3ec5f1;
+            margin-bottom: 20px;
+        }
+
+        #join-form>input {
+            width: 100%;
+            height: 48px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            background-color: #eeeeee;
+        }
+
+        #join-form>input::placeholder {
+            color: #cccccc;
+        }
+        #join-form>div {
+            float: flex;
+        }
+        #join-form>div>input[type="sign_in"] {
+            color: #fff;
+            width: 100%;
+            font-size: 16px;
+            height: 48px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            background-color: #3ec5f1;
+            margin-top: 0px;
+            text-align: center;
+        }
+        #join-form>div>input[type="sign_up"] {
+            color: #000;
+            width: 100%;
+            font-size: 16px;
+            height: 48px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            background-color: #cfcfcf;
+            margin-top: 0px;
+            text-align: center;
+        }
+
+        #join-form>input[type="checkbox"] {
+            display: none;
+        }
+
+        #join-form>label {
+            color: #999999;
+        }
+
+    </style>
     </style>
     <script>
         function sign_up() {
@@ -67,17 +146,18 @@
 </head>
 
 <body>
-    <div class="mypost" id="post-box">
-        <div>
-            <label>ID</label>
-            <input id="input-username" class="form-control" placeholder="아이디 입력">
-        </div>
-        <div>
-            <label>Password</label>
-            <input id="input-password" class="form-control" placeholder="비밀번호 입력">
-        </div>
-        <button type="button" class="btn btn-primary" onclick="sign_in()">로그인</button>
-        <button onclick="sign_up()">회원가입</button>
+    <div class="join-wrapper">
+        <h2>로그인</h2>
+        <form method="post"  id="join-form">
+            <input type="text" id="input-username" placeholder="아이디">
+            <input type="password" id="input-password" placeholder="비밀번호">
+            <div>
+                <input type="sign_in" value="로그인" onclick="sign_in()">
+            </div>
+            <div>
+                <input type="sign_up" value="회원가입" onclick="sign_up()">
+            </div>
+        </form>
     </div>
 </body>
 

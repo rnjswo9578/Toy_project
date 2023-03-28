@@ -6,6 +6,7 @@ import jwt
 import hashlib
 from datetime import datetime, timedelta
 import certifi
+from datetime import datetime
 
 SECRET_KEY = 'secret_key'
 
@@ -57,7 +58,7 @@ def sign_in():
     if  result['id'] == username_receive:  # 일치한다면
         payload = {
             'id': username_receive,
-            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
+            'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 1)  # 로그인 1시간 유지
         } 
         # 유저 아이디와 유효기간을 담고 있는 payload 생성
         
@@ -85,12 +86,15 @@ def save_post():
     token_receive = request.cookies.get('mytoken')
     title_receive = request.form["title_give"]
     content_receive = request.form["content_give"]
+    now = datetime.now()
+
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         doc = {
             'title': title_receive,
             'content': content_receive,
-            'id': payload['id']
+            'id': payload['id'],
+            'date':now.date()
         }
         db.board.insert_one(doc)
 
