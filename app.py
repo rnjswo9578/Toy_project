@@ -21,14 +21,23 @@ def home():
 # 회원가입
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():
-    username_receive = request.form['username_give']
+
+    id_receive = request.form['id_give']
     password_receive = request.form['password_give']
     nickname_receive = request.form['nickname_give']
+    username_receive = request.form['username_give']
+    userbirth_receive = request.form['userbirth_give']
+    userphone_receive = request.form['userphone_give']
+    userEmail_receive = request.form['userEmail_give']
     password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest() # password 해쉬화 함수
     doc = {
-        "username": username_receive,  # 아이디
+        "id": id_receive,  # 아이디
         "password": password_hash,  # 비밀번호
         "nickname": nickname_receive,  # 닉네임
+        "username": username_receive,  # 닉네임
+        "userbirth": userbirth_receive,  # 닉네임
+        "userphone": userphone_receive,  # 닉네임
+        "userEmail": userEmail_receive,  # 닉네임
     }
     db.users.insert_one(doc) # 유저가 입력한 아이디 pw 닉네임을 DB에 저장
     return jsonify({'result': 'success'})
@@ -42,10 +51,10 @@ def sign_in():
     password_receive = request.form['password_give']  # 유저가 아이디 pw 입력
 
     pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()  # 유저가 입력한 pw를 해쉬화
-    result = db.users.find_one({'username': username_receive, 'password': pw_hash}) 
+    result = db.users.find_one({'id': username_receive, 'password': pw_hash}) 
     # 아이디와 유저가 입력한 해쉬화된 pw가 DB에 저장되어 있는 해쉬화된 pw와 일치하는지 확인 
 
-    if  result['username'] == username_receive:  # 일치한다면
+    if  result['id'] == username_receive:  # 일치한다면
         payload = {
             'id': username_receive,
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
@@ -108,6 +117,14 @@ def home2():
 @app.route('/index')
 def login():
     return render_template('simplelogin.html')
+
+@app.route('/index2')
+def login_index():
+    return render_template('index2.html')
+
+@app.route('/login_sign_up')
+def login_sign_up():
+    return render_template('10_jo_blog_join_the_membership.html')
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

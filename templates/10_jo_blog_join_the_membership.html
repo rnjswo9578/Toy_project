@@ -142,7 +142,24 @@
         return false;
     }
     alert("회원 가입이 완료되었습니다.");
-    return true;
+
+    let formData = new FormData();
+    formData.append("id_give", id);
+    formData.append("password_give", pw);
+    formData.append("nickname_give", nickname);
+    formData.append("username_give", username);
+    formData.append("userbirth_give", userbirth);
+    formData.append("userphone_give", userphone);
+    formData.append("userEmail_give", userEmail);
+
+    fetch('/sign_up/save', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+        if (data['result'] == 'success') {
+            alert("회원가입 성공!")
+            window.location.replace("/simplelogin")
+        } else {
+            alert(data['msg'])
+        }
+    });
 }
   </script>
 
