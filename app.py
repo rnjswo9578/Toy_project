@@ -84,5 +84,25 @@ def save_post():
     db.board.insert_one(doc)
     return jsonify({'msg':'작성 완료!'})
 
+
+# 이부분이 동작하게 되는데
+# cookie에 저장되어있는 token값을 꺼낸뒤에 token_receive에 저장합니다
+# 그리고 payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256']) 이
+# 부분에서 token값을 다시 id값으로 바꿔줍니다 
+# 이때 만약 만료된 토큰이거나 가지고 있는 토큰이 문제가 있다면
+# 다시 버튼이 있는 페이지로 redirect시켜줍니다.
+
+@app.route('/simplelogin2')
+def home2():
+	token_receive = request.cookies.get('mytoken')
+	try:
+		payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+		print(payload)
+		return render_template('board.html')
+	except jwt.ExpiredSignatureError:
+		return render_template('index.html')
+	except jwt.exceptions.DecodeError:
+		return render_template('index.html')
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)

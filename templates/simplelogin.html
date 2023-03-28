@@ -62,10 +62,8 @@
             formData.append("nickname_give", password);
             fetch('/sign_up/save', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
                 if (data['result'] == 'success') {
-                    // root도메인의 쿠키에 로그인 토큰을 저장
-                    $.cookie('mytoken', data['token'], {path: '/'});
-                    alert(data['msg'])
-                    // window.location.replace("/login")
+                    alert("회원가입 성공!")
+                    window.location.replace("/simplelogin")
                 } else {
                     alert(data['msg'])
                 }
@@ -96,10 +94,13 @@
             formData.append("username_give", username);
             formData.append("password_give", password);
             fetch('/sign_in', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+                console.log(data['result'])
                 if (data['result'] == 'success') {
-                    // root도메인의 쿠키에 로그인 토큰을 저장
-                    $.cookie('mytoken', data['token'], {path: '/'}); 
-                    window.location.replace("/")
+                    // 쿠키에 로그인 토큰을 저장
+                    setCookie('mytoken', data['token'],data['token']['exp']);
+                    // $.cookie('mytoken', data['token'], {path: '/'});
+                    alert("로그인 성공")
+                    window.location.replace("/simplelogin2")
                 } else {
                     alert(data['msg'])
                 }
