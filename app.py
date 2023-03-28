@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 from pymongo import MongoClient
 import jwt
+from flask_jwt_extended import jwt_required, get_jwt_identity
 import hashlib
 from datetime import datetime, timedelta
 import certifi
@@ -77,8 +78,10 @@ def simplelogin():
     return render_template('simplelogin.html')
     
 @app.route('/board')
+@jwt_required()
 def board():
-    return render_template('board.html')
+    current_user = get_jwt_identity()
+    return render_template('board.html', current_user=current_user)
     
 @app.route("/board/show", methods=["GET"])
 def board_get():
