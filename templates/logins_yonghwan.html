@@ -13,6 +13,45 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./login.css" />
+    <script>
+      function sign_in() {
+          let username = $("#userID").val()
+          let password = $("#userPW").val()
+
+          if (username == "") {
+              $("#help-id-login").text("아이디를 입력해주세요.")
+              $("#input-username").focus()
+              return;
+          } else {
+              $("#help-id-login").text("")
+          }
+
+          if (password == "") {
+              $("#help-password-login").text("비밀번호를 입력해주세요.")
+              $("#input-password").focus()
+              return;
+          } else {
+              $("#help-password-login").text("")
+          }
+
+          let formData = new FormData();
+          formData.append("username_give", username);
+          formData.append("password_give", password);
+          fetch('/sign_in', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+              console.log(data['result'])
+              if (data['result'] == 'success') {
+                  // 쿠키에 로그인 토큰을 저장
+                  console.log("로그인 성공")
+                  setCookie('mytoken', data['token'],data['token']['exp']);
+                  // $.cookie('mytoken', data['token'], {path: '/'});
+                  alert("로그인 성공")
+                  window.location.href = "./board"
+              } else {
+                  alert(data['msg'])
+              }
+          });
+        }
+    </script>
   </head>
 
   <body>
@@ -40,9 +79,8 @@
           placeholder="비밀번호"
         />
         <a href="#none"></a
-        ><button type="submit" id="btn_login" disabled>Log-IN</button>
+        ><button type="submit" id="btn_login" onclick="sign_in()">Log-IN</button>
       </form>
     </div>
-    <script src="./login.js"></script>
   </body>
 </html>

@@ -106,6 +106,11 @@
                 }
             });
         }
+        function setCookie(key, value, expiredays) {
+            let todayDate = new Date();
+            todayDate.setDate(todayDate.getDate() + expiredays);
+            document.cookie = key + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";";
+        }
     </script>
 </head>
 

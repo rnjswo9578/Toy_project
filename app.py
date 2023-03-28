@@ -45,7 +45,7 @@ def sign_in():
     result = db.users.find_one({'username': username_receive, 'password': pw_hash}) 
     # 아이디와 유저가 입력한 해쉬화된 pw가 DB에 저장되어 있는 해쉬화된 pw와 일치하는지 확인 
 
-    if result is not None:  # 일치한다면
+    if  result['username'] == username_receive:  # 일치한다면
         payload = {
             'id': username_receive,
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
@@ -95,14 +95,19 @@ def save_post():
 @app.route('/simplelogin2')
 def home2():
 	token_receive = request.cookies.get('mytoken')
+        
 	try:
 		payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 		print(payload)
-		return render_template('board.html')
+		return render_template('index2.html')
 	except jwt.ExpiredSignatureError:
 		return render_template('index.html')
 	except jwt.exceptions.DecodeError:
 		return render_template('index.html')
+
+@app.route('/index')
+def login():
+    return render_template('simplelogin.html')
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
