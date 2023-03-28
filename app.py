@@ -78,10 +78,8 @@ def simplelogin():
     return render_template('simplelogin.html')
     
 @app.route('/board')
-@jwt_required()
 def board():
-    current_user = get_jwt_identity()
-    return render_template('board.html', current_user=current_user)
+    return render_template('board.html')
     
 @app.route("/board/show", methods=["GET"])
 def board_get():
