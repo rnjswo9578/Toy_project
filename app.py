@@ -82,16 +82,24 @@ def board():
 
 @app.route("/board/save", methods=["POST"])
 def save_post():
+    token_receive = request.cookies.get('mytoken')
     title_receive = request.form["title_give"]
     content_receive = request.form["content_give"]
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        doc = {
+            'title': title_receive,
+            'content': content_receive,
+            'id': payload['id']
+        }
+        db.board.insert_one(doc)
 
-    doc = {
-        'title': title_receive,
-        'content': content_receive
-    }
-
-    db.board.insert_one(doc)
-    return jsonify({'msg':'작성 완료!'})
+        print(payload)
+        return jsonify({'msg':'작성 완료!'})
+    except jwt.ExpiredSignatureError:
+        return render_template('index.html')
+    except jwt.exceptions.DecodeError:
+        return render_template('index.html')
 
 
 # 이부분이 동작하게 되는데
