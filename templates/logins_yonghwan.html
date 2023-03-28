@@ -19,11 +19,12 @@
     <header class="header">
       <h1 class="header__title">Welcome Hanghae99 10TEAM_Blog</h1>
       <p class="header__text">
-        If you have a Yonghwan world account, log in with your email
+        If you have a Hanghae99 10TEAM_Blog account, log in with your email
       </p>
     </header>
     <div class="login-form">
-      <form>
+      <form method="POST" action="{{ url_for('login') }}">
+        >
         <input
           type="text"
           name="userID"
@@ -38,8 +39,10 @@
           class="text-field"
           placeholder="비밀번호"
         />
-        <a href="#none"><button id="btn_login" disabled>로그인</button></a>
+        <a href="#none"></a
+        ><button type="submit" id="btn_login" disabled>Log-IN</button>
       </form>
     </div>
+    <script src="./login.js"></script>
   </body>
 </html>
