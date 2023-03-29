@@ -53,7 +53,7 @@ def checkDuplicateId():
     # 입력한 아이디가 있는지 확인
 
     if  result['id'] == username_receive:  # ID 가 있다면
-        return jsonify({'result': 'cant'}) 
+        return jsonify({'result': 'cant'})
     # 찾지 못하면
     else:
         return jsonify({'result': 'can'})
