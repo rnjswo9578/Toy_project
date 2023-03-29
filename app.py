@@ -52,11 +52,11 @@ def checkDuplicateId():
     result = db.users.find_one({'id': username_receive}) 
     # 입력한 아이디가 있는지 확인
 
-    if  result['id'] == username_receive:  # ID 가 있다면
-        return jsonify({'result': 'cant'})
-    # 찾지 못하면
-    else:
+    if  result == None:  # ID 가 있다면
         return jsonify({'result': 'can'})
+    # 찾지 못하면
+    elif result['id'] == username_receive :
+        return jsonify({'result': 'cant'})
 
 # 로그인서버
 @app.route('/sign_in', methods=['POST'])
