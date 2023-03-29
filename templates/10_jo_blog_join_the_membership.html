@@ -116,10 +116,22 @@
         } */
     </style>
 <script type="text/javascript">
+    a=2
     function checkDuplicateId() {
-        
-    }
+        let formData = new FormData();
+            formData.append("username_give", id);
+            fetch('/checkDuplicateId', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+                console.log(data['result'])
+                if (data['result'] == 'can') {
+                    alert("사용 가능한 아이디입니다")
+                    a=1
+                } else {
+                    alert('이미 사용중인 아이디입니다. 다른 아이디를 입력해 주세요.')
+                    a=2
+                }
+            });}
     function test(){
+
     var id = document.getElementsByName('user_id')[0].value;
     var pw = document.getElementsByName('pw')[0].value;
     var pwCheck = document.getElementsByName('pwCheck')[0].value;
@@ -135,6 +147,9 @@
     if(id == ""){
         alert("아이디를 입력해주세요.");
         return false;
+    }
+    if(a=2){
+        alert("중복 체크를 완료해주세요")
     }
     if(pw == ""){
         alert("비밀번호를 입력해주세요.");
