@@ -37,6 +37,11 @@
             border-bottom-right-radius: 0;
             border-bottom-left-radius: 0;
         }
+        .form-signin input[type="top2"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
 
         .form-signin input[type="mid"] {
             margin-top: -1px;
@@ -116,25 +121,29 @@
         } */
     </style>
 <script type="text/javascript">
-    a=2
+    a = 2
+    name = ""
     function checkDuplicateId() {
-    var id = document.getElementsByName('user_id')[0].value;
-    if(id == ""){
-        alert("아이디를 입력해주세요.");
-        return false;}
+        var id = document.getElementsByName('user_id')[0].value;
+        if(id == ""){
+            alert("아이디를 입력해주세요.");
+            return false;
+        }
         var id = document.getElementById('user_id').value;
         let formData = new FormData();
-            formData.append("username_give", id);
-            fetch('/checkDuplicateId', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
-                console.log(data['result'])
-                if (data['result'] == "can") {
-                    alert("사용 가능한 아이디입니다")
-                    a=1
-                } else {
-                    alert('이미 사용중인 아이디입니다. 다른 아이디를 입력해 주세요.')
-                    a=2
-                }
-            });}
+        formData.append("username_give", id);
+        fetch('/checkDuplicateId', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+            console.log(data['result'])
+            if (data['result'] == "can") {
+                alert("사용 가능한 아이디입니다")
+                name = id
+                a=1
+            } else {
+                alert('이미 사용중인 아이디입니다. 다른 아이디를 입력해 주세요.')
+                a=2
+            }
+        });
+    }
     function test(){
 
     var id = document.getElementsByName('user_id')[0].value;
@@ -148,13 +157,15 @@
     var agree1 = document.getElementById('agree1').checked;
     var agree2 = document.getElementById('agree2').checked;
     var agree3 = document.getElementById('agree3').checked;
+    var agree4 = document.getElementById('agree4').checked;
   
     if(id == ""){
         alert("아이디를 입력해주세요.");
         return false;
     }
-    if(a=2){
+    if(a == 2 || id != name){
         alert("중복 체크를 완료해주세요")
+        return false;
     }
     if(pw == ""){
         alert("비밀번호를 입력해주세요.");
@@ -206,7 +217,6 @@
         alert("비밀번호가 일치하지 않습니다.");
         return false;
     }
-    alert("회원 가입이 완료되었습니다.");
 
     let formData = new FormData();
     formData.append("id_give", id);
@@ -219,7 +229,7 @@
 
     fetch('/sign_up/save', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
         if (data['result'] == 'success') {
-            alert("회원가입 성공!")
+            alert("회원 가입이 완료되었습니다.")
             window.location.replace("/simplelogin")
         } else {
             alert(data['msg'])
@@ -237,9 +247,18 @@
             <h1 class="h3 mb-3 fw-normal">회원가입</h1>
     
             <div class="form-floating d-flex">
-                <input type="top" class="form-control" name="user_id" id="user_id" placeholder="ID">
-                <label for="floatingInput">아이디</label>
-                <button class="btn btn-sm btn-secondary ms-2" type="button" onclick="checkDuplicateId()">중복체크</button>
+                <input class="form-control" name="user_id" id="user_id" placeholder="ID">
+                <label type = "labeltop" for="floatingInput">아이디</label>
+            </div>
+            <br>
+            <div>
+                <checkbox value="remember-me" id="agree4" disabled>
+                <button class="btn btn-sm btn-secondary" type="button" onclick="checkDuplicateId()">아이디 중복 체크</button>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input type="top" class="form-control" name="username" placeholder="Password">
+                <label for="floatingPassword">이름</label>
             </div>
             <div class="form-floating">
                 <input type="password" class="form-control" name="pw" placeholder="Password">
@@ -248,10 +267,6 @@
             <div class="form-floating">
                 <input type="password" class="form-control" name="pwCheck" placeholder="Password">
                 <label for="floatingPassword">비밀번호 확인</label>
-            </div>
-            <div class="form-floating">
-                <input type="mid" class="form-control" name="username" placeholder="Password">
-                <label for="floatingPassword">이름</label>
             </div>
             <div class="form-floating">
                 <input type="mid" class="form-control" name="nickname" placeholder="Password">

@@ -18,15 +18,13 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('home.html')
 
 @app.route("/myinfo/show", methods=["GET"])
 def myinfo_get():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        print(payload)
-        payload['id']
         myinfo = db.users.find_one({'id': payload['id']})
         print(myinfo)
         return jsonify({'result': dumps(myinfo)})
@@ -37,7 +35,7 @@ def myinfo_get():
     # myinfo = list(db.users.find({},{'_id':False}))
     # print(myinfo)
     # return jsonify({'result':myinfo})
-@app.route("/myinfo/update", methods=["PUT"])
+@app.route("/myinfo/update", methods=["POST"])
 def myinfo_put():
     token_receive = request.cookies.get('mytoken')
     try:
@@ -119,8 +117,8 @@ def sign_in():
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
     
 
-@app.route('/simplelogin')
-def simplelogin():
+@app.route('/login')
+def login():
     return render_template('simplelogin.html')
     
 @app.route('/board')
@@ -166,13 +164,6 @@ def home2():
 	except jwt.exceptions.DecodeError:
 		return render_template('index.html')
 
-@app.route('/index')
-def login():
-    return render_template('simplelogin.html')
-
-@app.route('/index2')
-def login_index():
-    return render_template('index2.html')
 
 @app.route('/login_sign_up')
 def login_sign_up():
@@ -186,9 +177,6 @@ def myinfo():
 def mypage():
     return render_template('mypage.html')
 
-@app.route('/mypage/test')
-def mypage_test():
-    return render_template('home.html')
 
 @app.route('/decodeName', methods=["GET"])
 def decodeName():

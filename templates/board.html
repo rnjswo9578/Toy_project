@@ -45,6 +45,22 @@
             let title = $("#title").val();
             let content = $("#content").val();
 
+            if(title == ""){
+                let temp_html = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>제목을 입력해 주세요!</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>`
+                $("#title_p").prepend(temp_html)
+                return false;
+            }
+            if(content == ""){
+                let temp_html = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>내용을 입력해 주세요!</strong>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>`
+                $("#content_p").prepend(temp_html)
+                return false;
+            }
             let formData = new FormData();
             formData.append("title_give", title);
             formData.append("content_give", content);
@@ -53,7 +69,11 @@
                 alert(data["msg"]);
                 window.location.href = "/";
             });
-      }   
+        }
+        function resize(obj) {
+            obj.style.height = '1px';
+            obj.style.height = (12 + obj.scrollHeight) + 'px';
+        }
     </script>
 </head>
 
@@ -61,13 +81,10 @@
     <header data-bs-theme="dark">
         <nav class="navbar navbar-dark bg-dark fixed-top">
           <div class="container-fluid">
-            <a href="#" class="navbar-brand d-flex align-items-center">
+            <a href="../" class="navbar-brand d-flex align-items-center">
               <img src="{{ url_for('static', filename='image/bolg-w.png') }}" width="20" height="20" >
               <strong>&nbspBLOG</strong>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
               <div class="offcanvas-header">
                 <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">비회원</h5>
@@ -104,23 +121,24 @@
         <br><img src="{{ url_for('static', filename='image/bolg-s.png') }}" width="20" height="20" >
         <strong>&nbspBLOG</strong>
     </div>
-    <hr>
+    <br>
     <div class="mypost" id="post-box">
         <article>
             <div class="container" role="main">
-                <div class="mb-3">
+                <div class="mb-3" id="title_p">
                     <!-- <label for="title">제목</label> -->
                     <input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해 주세요"  style="border: none; background: transparent;font-size: 2.5em;">
                     <hr class = line>
                 </div>
-                <div class="mb-3">
+                <div class="mb-3" id="content_p">
                     <!-- <label for="content">내용</label> -->
-                    <textarea class="form-control" rows="5" name="content" id="content"
-                        placeholder="내용을 입력해 주세요" style="border: none; background: transparent; font-size: 1.5em;" ></textarea>
+                    <textarea class="form-control" rows="1" name="content" id="content"
+                        placeholder="내용을 입력해 주세요" style="border: none; background: transparent; font-size: 1.5em;" 
+                        onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
                 </div>
-                <div style="text-align: center;">
+                <div style="text-align: right;">
                     <button onclick="save_post()" type="button" class="btn btn-dark">저장</button>
-                    <button onclick="location.href='index.html'"; type="button" class="btn btn-outline-dark">닫기</button>
+                    <button onclick="location.href='../'" type="button" class="btn btn-outline-dark">나가기</button>
                 </div>
             </div>
         </article>

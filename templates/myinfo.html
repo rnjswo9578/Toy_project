@@ -101,11 +101,13 @@
 
         function show_myinfo() {
             fetch('/myinfo/show').then((res) => res.json()).then((data) => {
-                let a = JSON.parse(data['result'])
-                console.log(a);
-                let id = a['id'];
-                let nickname = a['nickname'];
-                let userbirth = a['userbirth'];
+                let rows = JSON.parse(data['result'])
+                let id = rows['id'];
+                let nickname = rows['nickname'];
+                let userbirth = rows['userbirth'];
+                let username = rows['username'];
+                let userphone = rows['userphone'];
+                let userEmail = rows['userEmail'];
                 $("#myinfo-list").empty()
                 let temp_html = `<div class="col-12">
                             <label for="id" class="form-label">아이디</label>
@@ -129,11 +131,11 @@
                         </div>
                         <div class="col-12">
                             <label for="userphone" class="form-label">휴대폰번호</label>
-                            <input type="userphone" class="form-control" id="userphone">
+                            <input type="userphone" class="form-control" id="userphone" value="${userphone}">
                         </div>
                         <div class="col-12">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                            <input type="email" class="form-control" id="email" placeholder="you@example.com" value="${userEmail}">
                         </div>`
                 $("#myinfo-list").append(temp_html)
             })
@@ -157,7 +159,7 @@
         };
 
         fetch('/myinfo/update', {
-            method: 'PUT',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -179,42 +181,39 @@
                     width="65" height="100">
                 <h2>내 정보</h2>
             </div>
-            <div class="col-md-7 col-lg-8">
-                <h4 class="mb-3">Billing address</h4>
-                <form class="needs-validation" novalidate>
-                    <div class="row g-3" id="myinfo-list">
-                        <div class="col-12">
-                            <label for="id" class="form-label">아이디</label>
-                            <input type="id" class="form-control" id="id" disabled value="asd">
-                        </div>
-                        <div class="col-12">
-                            <label for="password" class="form-label">비밀번호</label>
-                            <input type="password" class="form-control" id="password">
-                        </div>
-                        <div class="col-12">
-                            <label for="password2" class="form-label">비밀번호 확인</label>
-                            <input type="password" class="form-control" id="password">
-                        </div>
-                        <div class="col-12">
-                            <label for="nickname" class="form-label">닉네임</label>
-                            <input type="nickname" class="form-control" id="nickname" disabled value="asd">
-                        </div>
-                        <div class="col-12">
-                            <label for="userbirth" class="form-label">생년월일</label>
-                            <input type="userbirth" class="form-control" id="userbirth" disabled value="asd">
-                        </div>
-                        <div class="col-12">
-                            <label for="userphone" class="form-label">휴대폰번호</label>
-                            <input type="userphone" class="form-control" id="userphone">
-                        </div>
-                        <div class="col-12">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                        </div>
+            <div>
+                <div class="row g-3" id="myinfo-list">
+                    <div class="col-12">
+                        <label for="id" class="form-label">아이디</label>
+                        <input type="id" class="form-control" id="id" disabled value="asd">
                     </div>
-                    <hr class="my-4">
-                    <button class="w-100 btn btn-dark btn-lg" type="submit" onclick="modify_myinfo()">변경 저장</button>
-                </form>
+                    <div class="col-12">
+                        <label for="password" class="form-label">비밀번호</label>
+                        <input type="password" class="form-control" id="password">
+                    </div>
+                    <div class="col-12">
+                        <label for="password2" class="form-label">비밀번호 확인</label>
+                        <input type="password" class="form-control" id="password">
+                    </div>
+                    <div class="col-12">
+                        <label for="nickname" class="form-label">닉네임</label>
+                        <input type="nickname" class="form-control" id="nickname" disabled value="asd">
+                    </div>
+                    <div class="col-12">
+                        <label for="userbirth" class="form-label">생년월일</label>
+                        <input type="userbirth" class="form-control" id="userbirth" disabled value="asd">
+                    </div>
+                    <div class="col-12">
+                        <label for="userphone" class="form-label">휴대폰번호</label>
+                        <input type="userphone" class="form-control" id="userphone">
+                    </div>
+                    <div class="col-12">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                    </div>
+                </div>
+                <hr class="my-4">
+                <button class="w-100 btn btn-dark btn-lg" type="submit" onclick="modify_myinfo()">변경 저장</button>
             </div>
     </div>
     </main>
