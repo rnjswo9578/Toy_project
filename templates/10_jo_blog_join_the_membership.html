@@ -118,8 +118,9 @@
 <script type="text/javascript">
     a=2
     function checkDuplicateId() {
-        if(user_idm.length < 1) {
-        alert('아이디를 입력해주세요.');
+    var id = document.getElementsByName('user_id')[0].value;
+    if(id == ""){
+        alert("아이디를 입력해주세요.");
         return false;}
         var id = document.getElementById('user_id').value;
         let formData = new FormData();
@@ -236,7 +237,7 @@
             <h1 class="h3 mb-3 fw-normal">회원가입</h1>
     
             <div class="form-floating">
-                <input type="top" class="form-control" name="user_idm" id="user_id" placeholder="ID">
+                <input type="top" class="form-control" name="user_id" id="user_id" placeholder="ID">
                 <label for="floatingInput">아이디</label>
                 <button class="btn btn-sm btn-secondary" type="button" onclick="checkDuplicateId()">중복체크</button>
             </div>
