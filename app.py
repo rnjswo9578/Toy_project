@@ -136,5 +136,9 @@ def login_sign_up():
 def myinfo():
     return render_template('myinfo.html')
 
+@app.route('/mypage_test')
+def mypage_test():
+    return render_template('home.html')
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
