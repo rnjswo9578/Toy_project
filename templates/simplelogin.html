@@ -1,36 +1,56 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="auto">
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.111.3">
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
 
-    <title></title>
+    <title>로그인</title>
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
 
     <style>
-        .mypost{
-            width: 200px;
-            height: 200px;
-            border-radius: 10px;
-            margin-left: auto;
-            margin-right: auto;
+        .btn-group{
+        width: 135px;
+        }
+        html,
+        body {
+            height: 100%;
         }
 
-        #join{
-            background-color: blue;
-            color: white;
-            width: 80px;
-            height: 40px;
-            border-radius: 3px;
-            margin-top: 5px;
+        body {
+            display: flex;
+            align-items: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
         }
+
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+        }
+
+        .form-signin .form-floating:focus-within {
+            z-index: 2;
+        }
+
+        .form-signin input[type="email"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+        
     </style>
     <script>
         function sign_up() {
@@ -38,42 +58,39 @@
         }
 
         function sign_in() {
-        var id = document.getElementById('input-username').value;
-        var pw = document.getElementById('input-password').value;
+            var id = document.getElementById('input-username').value;
+            var pw = document.getElementById('input-password').value;
 
-    if(id == ""){
-        alert("아이디를 입력해주세요.");
-        return false;
-    } else {
-        $("#help-id-login").text("")
-    }
 
-    if(pw == ""){
-        alert("비밀번호를 입력해주세요.");
-        return false;
-    }if(pw.length < 6) {
-        alert('비밀번호는 6자 이상이어야 합니다.');
-        return false;
-    } else {
-        $("#help-password-login").text("")
-    }
+            if(id == ""){
+                alert("아이디를 입력해주세요.");
+                return false;
+            }
 
-    let formData = new FormData();
-    formData.append("username_give", id);
-    formData.append("password_give", pw);
-    fetch('/sign_in', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
-        console.log(data['result'])
-        if (data['result'] == 'success') {
-            // 쿠키에 로그인 토큰을 저장
-            setCookie('mytoken', data['token'],data['token']['exp']);
-            // $.cookie('mytoken', data['token'], {path: '/'});
-            alert("로그인 성공")
-            window.location.replace("/simplelogin2")
-        } else {
-            alert(data['msg'])
+            if(pw == ""){
+                alert("비밀번호를 입력해주세요.");
+                return false;
+            }if(pw.length < 6) {
+                alert('비밀번호는 6자 이상이어야 합니다.');
+                return false;
+            }
+
+            let formData = new FormData();
+            formData.append("username_give", id);
+            formData.append("password_give", pw);
+            fetch('/sign_in', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+                console.log(data['result'])
+                if (data['result'] == 'success') {
+                    // 쿠키에 로그인 토큰을 저장
+                    setCookie('mytoken', data['token'],data['token']['exp']);
+                    // $.cookie('mytoken', data['token'], {path: '/'});
+                    alert("로그인 성공")
+                    window.location.replace("/simplelogin2")
+                } else {
+                    alert(data['msg'])
+                }
+            });
         }
-    });
-}
         function setCookie(key, value, expiredays) {
             let todayDate = new Date();
             todayDate.setDate(todayDate.getDate() + expiredays);
@@ -82,20 +99,35 @@
     </script>
 </head>
 
-<body>
-    <div class="mypost" id="post-box">
-        <div>
-            <h5></h5>
-            <label>ID</label>
-            <input id="input-username" class="form-control" placeholder="아이디 입력">
-        </div>
-        <div>
-            <label>Password</label>
-            <input id="input-password" class="form-control" placeholder="비밀번호 입력">
-        </div>
-        <button type="button" class="btn btn-primary" onclick="sign_in()">로그인</button>
-        <button type="button" id="join" onclick="sign_up()">회원가입</button>
-    </div>
+<body class="text-center">
+    <main class="form-signin w-100 m-auto">
+        <form>
+            <img class="mb-4" src="{{ url_for('static', filename='image/bolg.png') }}" alt="" width="65" height="100">
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    
+            <div class="form-floating">
+                <input type="email" class="form-control" id="input-username" placeholder="ID">
+                <label for="floatingInput">아이디</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="input-password" placeholder="Password">
+                <label for="floatingPassword">비밀번호</label>
+            </div>
+    
+            <div class="checkbox mb-3">
+                <label>
+                <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-dark" type="submit" onclick="sign_in()">로그인</button>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-secondary" type="submit" onclick="sign_up()">회원가입</button>
+            </div>
+            <p class="mt-5 mb-3 text-body-secondary">&copy; 2023–2023</p>
+        </form>
+    </main>
 </body>
 
 </html>

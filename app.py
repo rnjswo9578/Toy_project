@@ -78,10 +78,8 @@ def simplelogin():
     return render_template('simplelogin.html')
     
 @app.route('/board')
-@jwt_required()
 def board():
-    current_user = get_jwt_identity()
-    return render_template('board.html', current_user=current_user)
+    return render_template('board.html')
     
 @app.route("/board/show", methods=["GET"])
 def board_get():
@@ -133,6 +131,10 @@ def login_index():
 @app.route('/login_sign_up')
 def login_sign_up():
     return render_template('10_jo_blog_join_the_membership.html')
+
+@app.route('/myinfo')
+def myinfo():
+    return render_template('myinfo.html')
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
