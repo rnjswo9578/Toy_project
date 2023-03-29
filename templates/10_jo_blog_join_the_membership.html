@@ -116,7 +116,23 @@
         } */
     </style>
 <script type="text/javascript">
+    a=2
+    function checkDuplicateId() {
+        var id = document.getElementById('user_id').value;
+        let formData = new FormData();
+            formData.append("username_give", id);
+            fetch('/checkDuplicateId', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+                console.log(data['result'])
+                if (data['result'] == 'can') {
+                    alert("사용 가능한 아이디입니다")
+                    a=1
+                } else {
+                    alert('이미 사용중인 아이디입니다. 다른 아이디를 입력해 주세요.')
+                    a=2
+                }
+            });}
     function test(){
+
     var id = document.getElementsByName('user_id')[0].value;
     var pw = document.getElementsByName('pw')[0].value;
     var pwCheck = document.getElementsByName('pwCheck')[0].value;
@@ -132,6 +148,9 @@
     if(id == ""){
         alert("아이디를 입력해주세요.");
         return false;
+    }
+    if(a=2){
+        alert("중복 체크를 완료해주세요")
     }
     if(pw == ""){
         alert("비밀번호를 입력해주세요.");
@@ -214,8 +233,9 @@
             <h1 class="h3 mb-3 fw-normal">회원가입</h1>
     
             <div class="form-floating">
-                <input type="top" class="form-control" name="user_id" placeholder="ID">
+                <input type="top" class="form-control" name="user_id" id="user_id" placeholder="ID">
                 <label for="floatingInput">아이디</label>
+                <button class="btn btn-sm btn-secondary" type="button" onclick="checkDuplicateId()">중복체크</button>
             </div>
             <div class="form-floating">
                 <input type="password" class="form-control" name="pw" placeholder="Password">

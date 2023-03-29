@@ -43,6 +43,20 @@ def sign_up():
     db.users.insert_one(doc) # 유저가 입력한 아이디 pw 닉네임을 DB에 저장
     return jsonify({'result': 'success'})
 
+#회원가입 중복체크
+
+ @app.route('/checkDuplicateId', methods=['POST'])
+def checkDuplicateId():
+    # 중복체크
+    username_receive = request.form['username_give']
+    result = db.users.find_one({'id': username_receive}) 
+    # 입력한 아이디가 있는지 확인
+
+    if  result['id'] == username_receive:  # ID 가 있다면
+        return jsonify({'result': 'cant'})
+    # 찾지 못하면
+    else:
+        return jsonify({'result': 'can'})
 
 # 로그인서버
 @app.route('/sign_in', methods=['POST'])
