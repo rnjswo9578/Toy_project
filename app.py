@@ -7,6 +7,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 import hashlib
 from datetime import datetime, timedelta
 import certifi
+from bson.json_util import dumps
 
 SECRET_KEY = 'secret_key'
 
@@ -19,6 +20,37 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
+@app.route("/myinfo/show", methods=["GET"])
+def myinfo_get():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        print(payload)
+        payload['id']
+        myinfo = db.users.find_one({'id': payload['id']})
+        print(myinfo)
+        return jsonify({'result': dumps(myinfo)})
+    except jwt.ExpiredSignatureError:
+        return render_template('index.html')
+    except jwt.exceptions.DecodeError:
+        return render_template('index.html')    
+    # myinfo = list(db.users.find({},{'_id':False}))
+    # print(myinfo)
+    # return jsonify({'result':myinfo})
+@app.route("/myinfo/update", methods=["PUT"])
+def myinfo_put():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        password = request.json.get('password')
+        userphone = request.json.get('userphone')
+        email = request.json.get('email')
+        db.users.update_one({'id': payload['id']}, {'$set': {'password': password, 'userphone': userphone, 'email': email}})
+        return jsonify({'result': 'success'})
+    except jwt.ExpiredSignatureError:
+        return render_template('index.html')
+    except jwt.exceptions.DecodeError:
+        return render_template('index.html')
 # 회원가입
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():

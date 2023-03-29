@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
-  <head>
 
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -9,16 +10,17 @@
     <meta name="generator" content="Hugo 0.111.3">
     <title>내 정보</title>
 
-    
 
-    
 
-<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
 
     <style>
         .container {
             max-width: 960px;
         }
+
         .bd-placeholder-img {
             font-size: 1.125rem;
             text-anchor: middle;
@@ -29,7 +31,7 @@
 
         @media (min-width: 768px) {
             .bd-placeholder-img-lg {
-            font-size: 3.5rem;
+                font-size: 3.5rem;
             }
         }
 
@@ -87,77 +89,141 @@
             --bs-btn-active-bg: #5a23c8;
             --bs-btn-active-border-color: #5a23c8;
         }
+
         .bd-mode-toggle {
             z-index: 1500;
         }
     </style>
+    <script>
+        $(document).ready(function () {
+            show_myinfo();
+        });
 
-    
-  </head>
-  <body class="bg-body-tertiary">
+        function show_myinfo() {
+            fetch('/myinfo/show').then((res) => res.json()).then((data) => {
+                let a = JSON.parse(data['result'])
+                console.log(a);
+                let id = a['id'];
+                let nickname = a['nickname'];
+                let userbirth = a['userbirth'];
+                $("#myinfo-list").empty()
+                let temp_html = `<div class="col-12">
+                            <label for="id" class="form-label">아이디</label>
+                            <input type="id" class="form-control" id="id" disabled value="${id}">
+                        </div>
+                        <div class="col-12">
+                            <label for="password" class="form-label">비밀번호</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <div class="col-12">
+                            <label for="password2" class="form-label">비밀번호 확인</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <div class="col-12">
+                            <label for="nickname" class="form-label">닉네임</label>
+                            <input type="nickname" class="form-control" id="nickname" disabled value="${nickname}">
+                        </div>
+                        <div class="col-12">
+                            <label for="userbirth" class="form-label">생일</label>
+                            <input type="userbirth" class="form-control" id="userbirth" disabled value="${userbirth}">
+                        </div>
+                        <div class="col-12">
+                            <label for="userphone" class="form-label">휴대폰번호</label>
+                            <input type="userphone" class="form-control" id="userphone">
+                        </div>
+                        <div class="col-12">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                        </div>`
+                $("#myinfo-list").append(temp_html)
+            })
+        }   
+        
+    function modify_myinfo() {
+        let password = $("#password").val();
+        let password2 = $("#password2").val();
+        let userphone = $("#userphone").val();
+        let email = $("#email").val();
 
-    
-<div class="container">
-  <main>
-    <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4" src="{{ url_for('static', filename='image/bolg.png') }}" alt="" width="65" height="100">
-      <h2>내 정보</h2>
-    </div>
+        // if (password != password2) {
+        //     alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+        //     return;
+        // }
 
-    
-    
-      <div class="col-md-7 col-lg-8">
-        <h4 class="mb-3">Billing address</h4>
-            <form class="needs-validation" novalidate>
-            <div class="row g-3">
+        let data = {
+            password: password,
+            userphone: userphone,
+            email: email
+        };
 
-                <div class="col-12">
-                    <label for="id" class="form-label">아이디</label>
-                    <input type="id" class="form-control" id="id" disabled value="asd">
-                </div>
+        fetch('/myinfo/update', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        }).then((res) => res.json()).then((data) => {
+            console.log(data);
+            show_myinfo();
+        });
+    };
 
-                <div class="col-12">
-                    <label for="password" class="form-label">비밀번호</label>
-                    <input type="password" class="form-control" id="password">
-                </div>
+    </script>
+</head>
 
-                <div class="col-12">
-                    <label for="password2" class="form-label">비밀번호 확인</label>
-                    <input type="password" class="form-control" id="password">
-                </div>
-
-                <div class="col-12">
-                    <label for="nickname" class="form-label">닉네임</label>
-                    <input type="nickname" class="form-control" id="nickname" disabled value="asd">
-                </div>
-                <div class="col-12">
-                    <label for="userbirth" class="form-label">생년월일</label>
-                    <input type="userbirth" class="form-control" id="userbirth" disabled value="asd">
-                </div>
-
-                <div class="col-12">
-                    <label for="userphone" class="form-label">휴대폰번호</label>
-                    <input type="userphone" class="form-control" id="userphone">
-                </div>
-
-                <div class="col-12">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="you@example.com">
-                </div>
-
+<body class="bg-body-tertiary">
+    <div class="container">
+        <main>
+            <div class="py-5 text-center">
+                <img class="d-block mx-auto mb-4" src="{{ url_for('static', filename='image/bolg.png') }}" alt=""
+                    width="65" height="100">
+                <h2>내 정보</h2>
             </div>
-            <hr class="my-4">
-
-            <button class="w-100 btn btn-dark btn-lg" type="submit">변경 저장</button>
-        </form>
-      </div>
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">Billing address</h4>
+                <form class="needs-validation" novalidate>
+                    <div class="row g-3" id="myinfo-list">
+                        <div class="col-12">
+                            <label for="id" class="form-label">아이디</label>
+                            <input type="id" class="form-control" id="id" disabled value="asd">
+                        </div>
+                        <div class="col-12">
+                            <label for="password" class="form-label">비밀번호</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <div class="col-12">
+                            <label for="password2" class="form-label">비밀번호 확인</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <div class="col-12">
+                            <label for="nickname" class="form-label">닉네임</label>
+                            <input type="nickname" class="form-control" id="nickname" disabled value="asd">
+                        </div>
+                        <div class="col-12">
+                            <label for="userbirth" class="form-label">생년월일</label>
+                            <input type="userbirth" class="form-control" id="userbirth" disabled value="asd">
+                        </div>
+                        <div class="col-12">
+                            <label for="userphone" class="form-label">휴대폰번호</label>
+                            <input type="userphone" class="form-control" id="userphone">
+                        </div>
+                        <div class="col-12">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <button class="w-100 btn btn-dark btn-lg" type="submit" onclick="modify_myinfo()">변경 저장</button>
+                </form>
+            </div>
     </div>
-  </main>
+    </main>
 
-  <footer class="my-5 pt-5 text-body-secondary text-center text-small">
-    <p class="mb-1">&copy; 2023–2023 BLOG</p>
-  </footer>
-</div>
+    <footer class="my-5 pt-5 text-body-secondary text-center text-small">
+        <p class="mb-1">&copy; 2023–2023 BLOG</p>
+    </footer>
+    </div>
 
-  </body>
+</body>
+
 </html>
