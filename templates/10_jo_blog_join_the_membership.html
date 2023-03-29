@@ -126,7 +126,7 @@
             formData.append("username_give", id);
             fetch('/checkDuplicateId', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
                 console.log(data['result'])
-                if (data['result'] == 'can') {
+                if (data['result'] == "can") {
                     alert("사용 가능한 아이디입니다")
                     a=1
                 } else {
