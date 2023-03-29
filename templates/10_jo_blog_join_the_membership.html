@@ -116,6 +116,9 @@
         } */
     </style>
 <script type="text/javascript">
+    function checkDuplicateId() {
+        
+    }
     function test(){
     var id = document.getElementsByName('user_id')[0].value;
     var pw = document.getElementsByName('pw')[0].value;
@@ -216,6 +219,7 @@
             <div class="form-floating">
                 <input type="top" class="form-control" name="user_id" placeholder="ID">
                 <label for="floatingInput">아이디</label>
+                <button class="btn btn-sm btn-secondary" type="button" onclick="checkDuplicateId()">중복체크</button>
             </div>
             <div class="form-floating">
                 <input type="password" class="form-control" name="pw" placeholder="Password">
