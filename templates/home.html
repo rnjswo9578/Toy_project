@@ -8,10 +8,6 @@
     
     <title>myPage</title>
 
-    
-
-    
-
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
 
     <style>
@@ -92,8 +88,62 @@
     <script>
       $(document).ready(function () {
         show_content();
-      });        
 
+        let mytoken = getCookie('mytoken');
+        document.getElementById("loginBtn").style.display = "none";
+
+        if(mytoken != null) {
+          fetch('/decodeName').then((res) => res.json()).then((data) => {
+              $("#id_hello").text(data['result']+" 님 환영합니다!!");
+              $("#offcanvasDarkNavbarLabel").text(data['result']+" 님");
+              $("#offcanvasDarkNavbarLabel").append(`<br><button class="btn btn-light" onclick="logout()">로그아웃</button>`);
+
+              $("#nav-items").empty()
+              let temp_html = `<li class="nav-item">
+                                <a class="nav-link active" href="../board">새 글작성</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#">글</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#">시리즈</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="../myinfo">내프로필</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" onclick = "logout()">로그아웃</a>
+                              </li>
+                              `
+              $("#nav-items").append(temp_html)
+          })
+        } else {
+          document.getElementById("loginBtn").style.display = "block";
+        }
+
+        console.log(getCookie('mytoken'))
+      });
+            //쿠키 가져오기
+      function getCookie(key) {
+          var result = null;
+          var cookie = document.cookie.split(';');
+          cookie.some(function (item) {
+              // 공백을 제거
+              item = item.replace(' ', '');
+      
+              var dic = item.split('=');
+      
+              if (key === dic[0]) {
+                  result = dic[1];
+                  return true;    // break;
+              }
+          });
+          return result;
+      }  
+      function logout() {
+          $.removeCookie('mytoken', {path: '/'});
+          window.location.reload();
+      }
       function show_content() {
         fetch('/board/show').then((res) => res.json()).then((data) => {
             let rows = data['result'];
@@ -142,19 +192,7 @@
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="../index">새 글작성</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../index">글</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../index">시리즈</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../index">내프로필</a>
-            </li>
+          <ul class="navbar-nav justify-content-end flex-grow-1 pe-3"  id="nav-items">
             <li class="nav-item">
               <a class="nav-link" href="../index">로그인</a>
             </li>
@@ -181,10 +219,10 @@
           BLOG
         </h1>
         <br>
-        <p class="lead text-body-secondary">Blog는 간단한 글을 작성하고 저장, 삭제할 수 있는 플랫폼입니다.
+        <p class="lead text-body-secondary" id="id_hello">Blog는 간단한 글을 작성하고 저장, 삭제할 수 있는 플랫폼입니다.
         </p>
         <br>
-        <p>
+        <p id="loginBtn">
           <a href="../index" class="btn btn-dark my-2">로그인</a>
           <a href="../login_sign_up" class="btn btn-secondary my-2">회원가입</a>
         </p>

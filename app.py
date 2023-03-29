@@ -154,5 +154,21 @@ def myinfo():
 def mypage():
     return render_template('mypage.html')
 
+@app.route('/mypage/test')
+def mypage_test():
+    return render_template('home.html')
+
+@app.route('/decodeName', methods=["GET"])
+def decodeName():
+    token_receive = request.cookies.get('mytoken')  
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        print(payload['id'])
+        return jsonify({'result': payload['id']})
+    except jwt.ExpiredSignatureError:
+        return render_template('index.html')
+    except jwt.exceptions.DecodeError:
+        return render_template('index.html')
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
