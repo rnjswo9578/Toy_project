@@ -85,7 +85,40 @@
     <script>
       $(document).ready(function () {
         show_content();
-      });        
+
+        let mytoken = getCookie('mytoken');
+        document.getElementById("loginBtn").style.display = "none";
+        document.getElementById("mypageBtn").style.display = "none";
+
+
+        if(mytoken != null) {
+            document.getElementById("mypageBtn").style.display = "block";
+        } else {
+            document.getElementById("loginBtn").style.display = "block";
+        }
+
+        console.log(getCookie('mytoken'))
+
+      });
+      
+      //쿠키 가져오기
+    function getCookie(key) {
+        var result = null;
+        var cookie = document.cookie.split(';');
+        cookie.some(function (item) {
+            // 공백을 제거
+            item = item.replace(' ', '');
+    
+            var dic = item.split('=');
+    
+            if (key === dic[0]) {
+                result = dic[1];
+                return true;    // break;
+            }
+        });
+        return result;
+    }
+
 
       function show_content() {
         fetch('/board/show').then((res) => res.json()).then((data) => {
@@ -107,6 +140,9 @@
         function login() {
             window.location.href = '/index'
         }
+        function mypage() {
+            window.location.href = '/mypage'
+        }
     </script>
 </head>
 
@@ -115,7 +151,8 @@
         <h1>블로그</h1>
     </div>
         <div class="navbar_item" id="btn">
-            <button type="button" class="btn btn-dark" style="float: right"; id="btn1" onclick="login()">로그인</button>
+            <button type="button" class="btn btn-dark" style="float: right"; id="loginBtn" onclick="login()">로그인</button>
+            <button type="button" class="btn btn-dark" style="float: right"; id="mypageBtn" onclick="mypage()">마이페이지</button>
         </div>  
     </div>
     <hr>  
