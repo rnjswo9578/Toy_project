@@ -51,7 +51,7 @@
 
             fetch('/board/save', {method:"POST", body: formData,}).then((res) => res.json()).then((data) => {
                 alert(data["msg"]);
-                window.location.href = "/index2";
+                window.location.href = "/";
             });
       }   
     </script>
