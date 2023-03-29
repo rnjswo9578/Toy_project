@@ -132,5 +132,9 @@ def login_index():
 def login_sign_up():
     return render_template('10_jo_blog_join_the_membership.html')
 
+@app.route('/myinfo')
+def myinfo():
+    return render_template('myinfo.html')
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
