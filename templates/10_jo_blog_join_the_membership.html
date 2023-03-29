@@ -118,6 +118,7 @@
 <script type="text/javascript">
     a=2
     function checkDuplicateId() {
+        var id = document.getElementById('user_id').value;
         let formData = new FormData();
             formData.append("username_give", id);
             fetch('/checkDuplicateId', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
