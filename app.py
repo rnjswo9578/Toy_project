@@ -45,7 +45,7 @@ def sign_up():
 
 #회원가입 중복체크
 
- @app.route('/checkDuplicateId', methods=['POST'])
+@app.route('/checkDuplicateId', methods=['POST'])
 def checkDuplicateId():
     # 중복체크
     username_receive = request.form['username_give']
