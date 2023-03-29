@@ -45,7 +45,7 @@ def sign_up():
 
 #회원가입 중복체크
 
- @app.route('/checkDuplicateId', methods=['POST'])
+@app.route('/checkDuplicateId', methods=['POST'])
 def checkDuplicateId():
     # 중복체크
     username_receive = request.form['username_give']
@@ -150,9 +150,9 @@ def login_sign_up():
 def myinfo():
     return render_template('myinfo.html')
 
-@app.route('/mypage_test')
-def mypage_test():
-    return render_template('home.html')
+@app.route('/mypage')
+def mypage():
+    return render_template('mypage.html')
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
