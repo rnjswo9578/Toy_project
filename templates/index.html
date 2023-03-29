@@ -15,6 +15,9 @@
     <title>블로그</title>
 
     <style>
+    button {
+        margin-left: 15px;
+    }
     /* navbar 상단 */
     .navbar {
         height: 200px;
@@ -83,24 +86,26 @@
     }    
     </style>
     <script>
-      $(document).ready(function () {
+    $(document).ready(function () {
         show_content();
 
         let mytoken = getCookie('mytoken');
         document.getElementById("loginBtn").style.display = "none";
         document.getElementById("mypageBtn").style.display = "none";
+        document.getElementById("myboard").style.display = "none"
 
 
         if(mytoken != null) {
             document.getElementById("mypageBtn").style.display = "block";
+            document.getElementById("myboard").style.display = "block"
         } else {
             document.getElementById("loginBtn").style.display = "block";
         }
 
         console.log(getCookie('mytoken'))
 
-      });
-      
+    });
+
       //쿠키 가져오기
     function getCookie(key) {
         var result = null;
@@ -120,28 +125,31 @@
     }
 
 
-      function show_content() {
+    function show_content() {
         fetch('/board/show').then((res) => res.json()).then((data) => {
             let rows = data['result']
             rows.sort(() => Math.random() - 0.5);
-		    $("#content-list").empty()
+		$("#content-list").empty()
             rows.forEach((a) => {
-              let title = a['title']
-              let content = a['content']
+            let title = a['title']
+            let content = a['content']
 
-              let temp_html = `<div class="item">
+            let temp_html = `<div class="item">
                                         <h2>${title}</h2>
                                         <h5>${content}</h5>
-                               </div>`
-              $("#content-list").append(temp_html)
+                            </div>`
+            $("#content-list").append(temp_html)
             })
-          })
-      }        
+        })
+    }        
         function login() {
             window.location.href = '/index'
         }
         function mypage() {
             window.location.href = '/mypage'
+        }
+        function board() {
+            window.location.href = '/board'
         }
     </script>
 </head>
@@ -153,6 +161,7 @@
         <div class="navbar_item" id="btn">
             <button type="button" class="btn btn-dark" style="float: right"; id="loginBtn" onclick="login()">로그인</button>
             <button type="button" class="btn btn-dark" style="float: right"; id="mypageBtn" onclick="mypage()">마이페이지</button>
+            <button type="button" class="btn btn-dark" style="float: right"; id="myboard" onclick="board()">새 글 쓰기</button>
         </div>  
     </div>
     <hr>  
