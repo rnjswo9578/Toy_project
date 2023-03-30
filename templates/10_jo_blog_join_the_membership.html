@@ -230,7 +230,7 @@
     fetch('/sign_up/save', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
         if (data['result'] == 'success') {
             alert("회원 가입이 완료되었습니다.")
-            window.location.replace("../")
+            window.location.replace("../login")
         } else {
             alert(data['msg'])
         }
