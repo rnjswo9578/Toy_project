@@ -139,17 +139,19 @@
       function logout() {
           $.removeCookie('mytoken', {path: '/'});
           window.location.href = "../";
+          
       }
 
       function view(obj) {
         console.log(obj)
         text = obj[0].innerText.split("\n")
-        let title = text[0]
-        let id = text[1]
-        let formData = new FormData();
-            formData.append("title_give", title);
-            formData.append("id_give", id);
-        fetch('/view', {method:"POST", body: formData,}).then((res) => res.json()).then((data) => { });
+        window.location.href = "../view";
+        // let title = text[0]
+        // let id = text[1]
+        // let formData = new FormData();
+        //     formData.append("title_give", title);
+        //     formData.append("id_give", id);
+        // fetch('/view', {method:"POST", body: formData,}).then((res) => res.json()).then((data) => { });
       }
 
       function show_content() {
