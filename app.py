@@ -35,6 +35,7 @@ def myinfo_get():
     # myinfo = list(db.users.find({},{'_id':False}))
     # print(myinfo)
     # return jsonify({'result':myinfo})
+
 @app.route("/myinfo/update", methods=["POST"])
 def myinfo_put():
     token_receive = request.cookies.get('mytoken')
@@ -49,6 +50,7 @@ def myinfo_put():
         return render_template('index.html')
     except jwt.exceptions.DecodeError:
         return render_template('index.html')
+    
 # 회원가입
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():
@@ -132,16 +134,26 @@ def board_get():
 
 @app.route("/board/save", methods=["POST"])
 def save_post():
+    token_receive = request.cookies.get('mytoken')
     title_receive = request.form["title_give"]
     content_receive = request.form["content_give"]
+    now = datetime.now()
 
-    doc = {
-        'title': title_receive,
-        'content': content_receive
-    }
-
-    db.board.insert_one(doc)
-    return jsonify({'msg':'작성 완료!'})
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        doc = {
+            'title': title_receive,
+            'content': content_receive,
+            'id': payload['id'],
+            'date': now.date(),
+            'time': now.time()
+        }
+        db.board.insert_one(doc)
+        return jsonify({'msg':'작성 완료!'})
+    except jwt.ExpiredSignatureError:
+        return jsonify({'msg':'저장 실패!'})
+    except jwt.exceptions.DecodeError:
+        return jsonify({'msg':'저장 실패!'})
 
 
 # 이부분이 동작하게 되는데
@@ -176,6 +188,10 @@ def myinfo():
 @app.route('/mypage')
 def mypage():
     return render_template('mypage.html')
+
+@app.route('/checkpassword')
+def checkpassword():
+    return render_template('checkpassword.html')
 
 
 @app.route('/decodeName', methods=["GET"])
