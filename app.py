@@ -26,7 +26,7 @@ def myinfo_get():
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
         myinfo = db.users.find_one({'id': payload['id']})
-        print(myinfo)
+
         return jsonify({'result': dumps(myinfo)})
     except jwt.ExpiredSignatureError:
         return render_template('index.html')
@@ -41,15 +41,28 @@ def myinfo_put():
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        password = request.json.get('password')
-        userphone = request.json.get('userphone')
-        email = request.json.get('email')
-        db.users.update_one({'id': payload['id']}, {'$set': {'password': password, 'userphone': userphone, 'email': email}})
-        return jsonify({'result': 'success'})
+        result = db.users.find_one({'id': payload['id']})
+
+        if result is not None:
+            password = request.form['password_give']
+            userphone = request.form['userphone_give']
+            email = request.form['userEmail_give']
+
+            if password != "":
+                password_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+                db.users.update_one({'id': payload['id']},{"$set":{'password':password_hash}})
+            if userphone != "":
+                db.users.update_one({'id': payload['id']},{"$set":{'userphone':userphone}})
+            if email != "":
+                db.users.update_one({'id': payload['id']},{"$set":{'userEmail':email}})
+            
+            return jsonify({'msg': '저장 성공','result':'success'})
+        else:
+            return jsonify({'msg': '저장 실패. 다시 시도해 주세요.','result':'fail'})
     except jwt.ExpiredSignatureError:
-        return render_template('index.html')
+        return jsonify({'msg': '저장 실패. 다시 시도해 주세요.','result':'fail'})
     except jwt.exceptions.DecodeError:
-        return render_template('index.html')
+        return jsonify({'msg': '저장 실패. 다시 시도해 주세요.','result':'fail'})
     
 # 회원가입
 @app.route('/sign_up/save', methods=['POST'])

@@ -147,26 +147,25 @@
         let userphone = $("#userphone").val();
         let email = $("#email").val();
 
-        // if (password != password2) {
-        //     alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-        //     return;
-        // }
 
-        let data = {
-            password: password,
-            userphone: userphone,
-            email: email
-        };
+        if (password != password2 && password != "" && password2 != "") {
+            alert("비밀번호가 일치하지 않습니다.");
+            window.location.reload();
+            return false;
+        }
 
-        fetch('/myinfo/update', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then((res) => res.json()).then((data) => {
-            console.log(data);
-            show_myinfo();
+        let formData = new FormData();
+        formData.append("password_give", password);
+        formData.append("userphone_give", userphone);
+        formData.append("userEmail_give", email);
+
+        fetch('/myinfo/update', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+            if (data['result'] == 'success') {
+                alert(data['msg']);
+                show_myinfo();
+            } else {
+                alert(data['msg'])
+            }
         });
     };
 
