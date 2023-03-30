@@ -210,10 +210,11 @@ def mypage():
 def checkpassword():
     return render_template('checkpassword.html')
 
-@app.route('/view', methods=["POST"])
-def viewd():
-    content = db.board.find({},{'_id':False})
-    return render_template('view.html')
+@app.route('/view', methods=["GET","POST"])
+def view():
+    id_receive = request.form["id_give"]
+    title_receive = request.form["title_give"]
+    return render_template('view.html', id = id_receive, title = title_receive)
 
 
 @app.route('/decodeName', methods=["GET"])

@@ -146,9 +146,9 @@
         let password2 = $("#password2").val();
         let userphone = $("#userphone").val();
         let email = $("#email").val();
+        console.log(password,password2)
 
-
-        if (password != password2 && password != "" && password2 != "") {
+        if(password != password2 && password != "" && password2 != "") {
             alert("비밀번호가 일치하지 않습니다.");
             window.location.reload();
             return false;
@@ -205,7 +205,7 @@
                     </div>
                     <div class="col-12">
                         <label for="password2" class="form-label">비밀번호 확인</label>
-                        <input type="password" class="form-control" id="password">
+                        <input type="password" class="form-control" id="password2">
                     </div>
                     <div class="col-12">
                         <label for="nickname" class="form-label">닉네임</label>

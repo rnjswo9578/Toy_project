@@ -41,40 +41,11 @@
         }
     </style>
     <script>
-        function view_post() {
-            let title = $("#title").val();
-            let content = $("#content").val();
-            let series = $("#series").val();
+        $(document).ready(function () {
+            
 
-            if(title == ""){
-                let temp_html = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                    <strong>제목을 입력해 주세요!</strong>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>`
-                $("#title_p").prepend(temp_html)
-                return false;
-            }
-            if(content == ""){
-                let temp_html = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                    <strong>내용을 입력해 주세요!</strong>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>`
-                $("#content_p").prepend(temp_html)
-                return false;
-            }
-            if(series == ""){
-                series = "None"
-            }
-            let formData = new FormData();
-            formData.append("title_give", title);
-            formData.append("content_give", content);
-            formData.append("series_give", series);
-
-            fetch('/board/save', {method:"POST", body: formData,}).then((res) => res.json()).then((data) => {
-                alert(data["msg"]);
-                window.location.href = "/";
-            });
-        }
+            
+        });
         function resize(obj) {
             obj.style.height = '1px';
             obj.style.height = (12 + obj.scrollHeight) + 'px';
