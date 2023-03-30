@@ -135,10 +135,23 @@
           });
           return result;
       }  
+
       function logout() {
           $.removeCookie('mytoken', {path: '/'});
           window.location.href = "../";
       }
+
+      function view(obj) {
+        console.log(obj)
+        text = obj[0].innerText.split("\n")
+        let title = text[0]
+        let id = text[1]
+        let formData = new FormData();
+            formData.append("title_give", title);
+            formData.append("id_give", id);
+        fetch('/view', {method:"POST", body: formData,}).then((res) => res.json()).then((data) => { });
+      }
+
       function show_content() {
         fetch('/board/show').then((res) => res.json()).then((data) => {
             let rows = data['result'];
@@ -146,6 +159,7 @@
 		    $("#content-list").empty()
             rows.forEach((a) => {
               let title = a['title']
+              let id = a['id']
               let content = a['content']
               let date = a['date']
               let hour = a['hour']
@@ -160,11 +174,14 @@
                                 <div class="card shadow-sm">
                                   <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
                                   <div class="card-body">
-                                    <h4>${title}</h4>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                      <h4>${title}</h4>
+                                      <small class="text-body-secondary">${id}</small>
+                                    </div>
                                     <p class="card-text">${content}</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                       <div class="btn-group">
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="view(this.parentElement.parentElement.parentElement.children)">View</button>
                                       </div>
                                       <small class="text-body-secondary">${date} ${hour}:${minute}:${second}</small>
                                     </div>
