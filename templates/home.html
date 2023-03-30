@@ -147,6 +147,14 @@
             rows.forEach((a) => {
               let title = a['title']
               let content = a['content']
+              let date = a['date']
+              let hour = a['hour']
+              var minute = a['minute']
+              let second = a['second']
+
+              if(parseInt(minute)/10 < 1){
+                minute = "0"+ minute;
+              }
 
               let temp_html = `<div class="col">
                                 <div class="card shadow-sm">
@@ -157,9 +165,8 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                       <div class="btn-group">
                                         <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                                       </div>
-                                      <small class="text-body-secondary">9 mins</small>
+                                      <small class="text-body-secondary">${date} ${hour}:${minute}:${second}</small>
                                     </div>
                                   </div>
                                 </div>
