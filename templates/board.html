@@ -44,6 +44,7 @@
         function save_post() {
             let title = $("#title").val();
             let content = $("#content").val();
+            let series = $("#series").val();
 
             if(title == ""){
                 let temp_html = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -61,9 +62,13 @@
                 $("#content_p").prepend(temp_html)
                 return false;
             }
+            if(series == ""){
+                series = "None"
+            }
             let formData = new FormData();
             formData.append("title_give", title);
             formData.append("content_give", content);
+            formData.append("series_give", series);
 
             fetch('/board/save', {method:"POST", body: formData,}).then((res) => res.json()).then((data) => {
                 alert(data["msg"]);
@@ -104,6 +109,11 @@
                     <textarea class="form-control" rows="1" name="content" id="content"
                         placeholder="내용을 입력해 주세요" style="border: none; background: transparent; font-size: 1.5em;" 
                         onkeydown="resize(this)" onkeyup="resize(this)"></textarea>
+                </div>
+                <div class="mb-3" id="content_p">
+                    <!-- <label for="content">내용</label> -->
+                    <textarea class="form-control" rows="1" name="content" id="series"
+                        placeholder="시리즈 입력" style="border: none; background: transparent; font-size: 1.5em;" ></textarea>
                 </div>
                 <div style="text-align: right;">
                     <button onclick="save_post()" type="button" class="btn btn-dark">저장</button>

@@ -150,6 +150,7 @@ def save_post():
     token_receive = request.cookies.get('mytoken')
     title_receive = request.form["title_give"]
     content_receive = request.form["content_give"]
+    series_receive = request.form["series_give"]
     now = datetime.now()
 
     try:
@@ -157,9 +158,12 @@ def save_post():
         doc = {
             'title': title_receive,
             'content': content_receive,
+            'series': series_receive,
             'id': payload['id'],
-            'date': now.date(),
-            'time': now.time()
+            'date': str(now.date()),
+            'hour': str(now.hour),
+            'minute': str(now.minute),
+            'second': str(now.second)
         }
         db.board.insert_one(doc)
         return jsonify({'msg':'작성 완료!'})

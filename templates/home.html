@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-    <title>myPage</title>
+    <title>home</title>
 
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
 
@@ -137,7 +137,7 @@
       }  
       function logout() {
           $.removeCookie('mytoken', {path: '/'});
-          window.location.reload();
+          window.location.href = "../";
       }
       function show_content() {
         fetch('/board/show').then((res) => res.json()).then((data) => {

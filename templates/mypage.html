@@ -4,185 +4,154 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
-    <title>마이페이지</title>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    
+    <title>mypage</title>
 
     <style>
-    /* navbar 상단 */
-    .navbar {
-        height: 200px;
-        background-color: white;
-        display: flex;
-    }
-    .navbar_name1 {
-        margin-left: 100px;
-        color: black;
-        font-size: 20px;
-    }
-    .navbar_item {
-        margin-right: 100px
-    }
-    .navbar_item1 {
-        margin-right: 10px;
-    }
-    /* content */
-    .body {
-        height: 100%;
-        width: 100%;
-    }
-    .mypage {
-        display: flex;
-        background-color: white;
-        width: 100%;
-        height: 300px;
-    }
-    .mypage2 {
-        background-color: white;
-        width: 700px;
-        height: 200px;
-        margin: auto;
-    }
-    .name {
-        background-color: white;
-        margin-top: 75px;
-    }
-    .mypage_name {
-        text-align: center;
-        font-size: 40px;
-    }
-    .mypage_name2 {
-        text-align: center;
-        font-size: 25px;
-    }
-    .line {
-        width: 90%;
-        color: black;
-        margin: 0px auto 0 auto;
-    }
-    .container {
-        display: flex;
-        flex-wrap: wrap;
-    }
-    .item {
-        width: 500px;
-        height: 200px;
-        background-color: white;
-        border: solid 2px;
-        margin: 30px auto 0px auto;
-    }
-    .content1 {
-        background-color: white;
-        width: 100%;
-        height: 200px;
-    }
-    .content2 {
-        display: flex;
-        background-color: white;
-        width: 50%;
-        height: 200px;
-        margin: auto;
-    }
-    .content3_name {
-        width: 50px;
-        height: 50px;
-        text-align: center;
-        margin-top: 80px;
-        margin-left: 200px;
-    }
-    .content3_name1 {
-        width: 50%;
-        text-align: center;
-        margin-top: 80px;
-        margin-left: 160px;
-    }
-        /* content */
-        .line {
-        width: 90%;
-        color: black;
-        margin: 50px auto 0 auto;
-    }
-    .main_body {
-        background-color: white;
-        width: 100%;
-        height: 100%;
-    }
-    .container {
-        display: flex;
-    }
-    .item {
-        width: 800px;
-        height: 500px;
-        background-color: white;
-        border: solid 2px;
-        margin: 30px auto 0px auto;
-        margin-bottom: 30px;
-    }
-    .content4 {
-        display: flex;
-        width: 500px;
-        height: 200px;
-        margin: 20px auto 20px auto;
-    }
-    .content5 {
-        display: flex;
-        position: relative;
-    }
-    .content5_name {
-        display: plex;
-        align-items: center;
-        width :8rem;
-        height: 3rem;
-        margin: auto;
-        margin-left: 50px;
-        color: black;
-    }
+        .card_img {
+            width: auto;
+            height: 200px;
+            object-fit: cover;
+        }
     </style>
-    <script>
 
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+        
+
+            let mytoken = getCookie('mytoken');
+            document.getElementById("loginBtn").style.display = "none";
+
+            if(mytoken != null) {
+                fetch('/decodeName').then((res) => res.json()).then((data) => {
+                    $("#id_hello").text(data['result']+" 님의 블로그입니다.");
+                    $("#offcanvasDarkNavbarLabel").text(data['result']+" 님");
+                
+
+                    $("#nav-items").empty()
+                    let temp_html = `<li class="nav-item">
+                                        <a class="nav-link" href="../">Home</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../board">글 쓰기</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="../checkpassword">내 프로필</a>
+                                    </li>
+                                    `
+                    $("#nav-items").append(temp_html)
+                    $("#nav-items").append(`<br><button class="btn btn-light" onclick="logout()">로그아웃</button><br>`);
+                })
+            }
+            else
+            {
+                window.location.href = "../";
+            }
+        });
+        function getCookie(key) {
+          var result = null;
+          var cookie = document.cookie.split(';');
+          cookie.some(function (item) {
+              // 공백을 제거
+              item = item.replace(' ', '');
+      
+              var dic = item.split('=');
+      
+              if (key === dic[0]) {
+                  result = dic[1];
+                  return true;    // break;
+              }
+          });
+          return result;
+        }
+        function logout() {
+          $.removeCookie('mytoken', {path: '/'});
+          window.location.href = "../";
+        }
     </script>
 </head>
 
 <body>
-    <div class="navbar">
-        <div class="navbar_name">
-            <a class="navbar_name1" href="#">블로그</a>
+    <header data-bs-theme="dark">
+        <nav class="navbar navbar-dark bg-dark fixed-top">
+          <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center">
+              <img src="{{ url_for('static', filename='image/bolg-w.png') }}" width="20" height="20" >
+              <strong>&nbspBLOG</strong>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+              <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">비회원</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+              </div>
+              <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3"  id="nav-items">
+                  <li class="nav-item">
+                    <a class="nav-link" href="../login">로그인</a>
+                  </li>
+                </ul>
+                <form class="d-flex mt-3" role="search">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-success" type="submit">Search</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </nav>
+    </header>
+    <section class="py-4 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <br>
+                <br>
+                <h1 class="fw-light">
+                    <img src="{{ url_for('static', filename='image/bolg-s.png') }}" width="50" height="50" >
+                    BLOG
+                </h1>
+                <br>
+                <p class="lead text-body-secondary" id="id_hello">Blog는 간단한 글을 작성하고 저장, 삭제할 수 있는 플랫폼입니다.</p>
+                <br>
+                <p id="loginBtn">
+                </p>
+            </div>
         </div>
-        <div class="navbar_item">
-            <button class="navbar_item1">새 글 작성</button>
-        </div>
-    </div>
-    <div class="body">
-        <div class="mypage">
-            <div class="mypage2">
-                <div class="name">
-                    <div class="mypage_name">아이디</div>
-                    <div class="mypage_name2">소개</div>
+    </section>
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">글</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">시리즈</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">소개</a>
+        </li>
+    </ul>
+    <div class="album py-5 bg-body-tertiary">
+        <div class="container">
+    
+          <div class="row row-cols-1 row-cols-md-2 g-4" id="content-list">
+            <div class="col">
+                <div class="card">
+                  <img src="{{ url_for('static', filename='image/table-lamp.jpg') }}" class="card_img" alt="...">
+                  <div class="card-body">
+                    <strong class="d-inline-block mb-2 text-success" id="series">Design</strong>
+                    <h5 class="card-title" id="title">Card title</h5>
+                    <p class="card-text" id="content">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  </div>
                 </div>
             </div>
+
+            
         </div>
-        <hr class="line">
-        <div class="content4">
-            <div class="content5">
-                <a class="content5_name" href="">글</a>
-                <a class="content5_name" href="">시리즈</a>
-                <a class="content5_name" href="">소개</a>
-            </div>
-        </div>
-        <div class="main_body">
-            <div class="container">
-                <div class="item">1</div>
-                <div class="item">2</div>
-                <div class="item">3</div>
-                <div class="item">4</div>
-            </div>
-        </div>
-    </div> 
+    </div>
 </body>
 </html>
