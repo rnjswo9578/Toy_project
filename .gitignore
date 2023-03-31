@@ -1,4 +1,8 @@
 __pycache__
 .DS_Store
 venv
+<<<<<<< HEAD
+=======
+assets
+>>>>>>> 09ce34f4788b94da4c5315b8624d04c515550862
 deploy
