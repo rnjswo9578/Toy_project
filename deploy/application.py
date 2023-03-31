@@ -11,10 +11,10 @@ from bson.json_util import dumps
 
 SECRET_KEY = 'secret_key'
 
-
+application = app = Flask(__name__)
 client = MongoClient('mongodb+srv://sparta:test@cluster0.icwksk1.mongodb.net/?retryWrites=true&w=majority' ,tlsCAFile=certifi.where())
 db = client.dbsparta
-app = Flask(__name__)
+
 
 @app.route('/')
 def home():
@@ -244,4 +244,4 @@ def decodeName():
         return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run('0.0.0.0', port=5000, debug=True)
+    app.run()

@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>회원가입</title>
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            border: none;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
+
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+        }
+
+        .form-signin .form-floating:focus-within {
+            z-index: 2;
+        }
+
+        .form-signin input[type="top"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .form-signin input[type="top2"] {
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .form-signin input[type="mid"] {
+            margin-top: -1px;
+            border-radius: 0;
+            margin-bottom: -1px;
+        }
+        .form-signin input[type="password"] {
+            margin-top: -1px;
+            border-radius: 0;
+            margin-bottom: -1px;
+        }
+
+        .form-signin input[type="email"] {
+            margin-top: -1px;
+            border-top-right-radius: 0;
+            border-top-left-radius: 0;
+        }
+
+        /* .join-wrapper {
+            width: 400px;
+            height: 350px;
+            padding: 40px;
+            box-sizing: border-box;
+            display: table;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+
+        .join-wrapper>h2 {
+            font-size: 24px;
+            color: #242424;
+            margin-bottom: 20px;
+        }
+
+        #join-form>input {
+            width: 100%;
+            height: 48px;
+            padding: 0 10px;
+            box-sizing: border-box;
+            margin-bottom: 16px;
+            border-radius: 6px;
+            background-color: #F8F8F8;
+        }
+
+        #join-form>input::placeholder {
+            color: #D2D2D2;
+        }
+
+        #join-form>input[type="button"] {
+            color: #fff;
+            font-size: 16px;
+            background-color: #3ec5f1;
+            margin-top: 20px;
+        }
+
+        #join-form>input[type="checkbox"] {
+            display: none;
+        }
+
+        #join-form>label {
+            color: #999999;
+        }
+
+        #join-form input[type="checkbox"]+label {
+            cursor: pointer;
+            padding-left: 26px;
+            background-image: url("checkbox.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        #join-form input[type="checkbox"]:checked+label {
+            background-image: url("checkbox-active.png");
+            background-repeat: no-repeat;
+            background-size: contain;
+        } */
+    </style>
+<script type="text/javascript">
+    a = 2
+    name = ""
+    function checkDuplicateId() {
+        var id = document.getElementsByName('user_id')[0].value;
+        if(id == ""){
+            alert("아이디를 입력해주세요.");
+            return false;
+        }
+        var id = document.getElementById('user_id').value;
+        let formData = new FormData();
+        formData.append("username_give", id);
+        fetch('/checkDuplicateId', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+            console.log(data['result'])
+            if (data['result'] == "can") {
+                alert("사용 가능한 아이디입니다")
+                name = id
+                a=1
+            } else {
+                alert('이미 사용중인 아이디입니다. 다른 아이디를 입력해 주세요.')
+                a=2
+            }
+        });
+    }
+    function test(){
+
+    var id = document.getElementsByName('user_id')[0].value;
+    var pw = document.getElementsByName('pw')[0].value;
+    var pwCheck = document.getElementsByName('pwCheck')[0].value;
+    var username = document.getElementsByName('username')[0].value;
+    var nickname = document.getElementsByName('nickname')[0].value;
+    var userbirth = document.getElementsByName('userbirth')[0].value;
+    var userphone = document.getElementsByName('userphone')[0].value;
+    var userEmail = document.getElementsByName('userEmail')[0].value;
+    var agree1 = document.getElementById('agree1').checked;
+    var agree2 = document.getElementById('agree2').checked;
+    var agree3 = document.getElementById('agree3').checked;
+    var agree4 = document.getElementById('agree4').checked;
+  
+    if(id == ""){
+        alert("아이디를 입력해주세요.");
+        return false;
+    }
+    if(a == 2 || id != name){
+        alert("중복 체크를 완료해주세요")
+        return false;
+    }
+    if(pw == ""){
+        alert("비밀번호를 입력해주세요.");
+        return false;
+    }
+    if(pwCheck == ""){
+        alert("비밀번호확인 을 입력해주세요.");
+        return false;
+    }
+    if(username == ""){
+        alert("이름을 입력해주세요.");
+        return false;
+    }
+    if(nickname == ""){
+        alert("닉네임을 입력해주세요.");
+        return false;
+    }
+    if(userbirth == ""){
+        alert("생년월일을 입력해주세요.");
+        return false;
+    }
+    if(userphone == ""){
+        alert("휴대폰 번호를 입력해주세요.");
+        return false;
+    }
+    if(userEmail == ""){
+        alert("이메일을 입력해주세요.");
+        return false;
+    }
+    if(!agree1){
+        alert("개인정보 수집 및 이용에 동의해주세요.");
+        return false;
+    }
+    if(!agree2){
+        alert("마케팅 정보 수신에 동의해주세요.");
+        return false;
+    }
+    if(!agree3){
+        alert("개인 회원 약관에 동의해주세요.");
+        return false;
+    }
+    
+    if(pw.length < 6) {
+        alert('비밀번호는 6자 이상이어야 합니다.');
+        return false;
+    }
+    
+    if( pw != pwCheck ) {
+        alert("비밀번호가 일치하지 않습니다.");
+        return false;
+    }
+
+    let formData = new FormData();
+    formData.append("id_give", id);
+    formData.append("password_give", pw);
+    formData.append("nickname_give", nickname);
+    formData.append("username_give", username);
+    formData.append("userbirth_give", userbirth);
+    formData.append("userphone_give", userphone);
+    formData.append("userEmail_give", userEmail);
+
+    fetch('/sign_up/save', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+        if (data['result'] == 'success') {
+            alert("회원 가입이 완료되었습니다.")
+            window.location.replace("../login")
+        } else {
+            alert(data['msg'])
+        }
+    });
+}
+  </script>
+
+    <title> 블로그 | 회원가입 </title>
+</head>
+
+<body class="text-center">
+    <main class="form-signin w-100 m-auto">
+        <form>
+            <h1 class="h3 mb-3 fw-normal">회원가입</h1>
+    
+            <div class="form-floating d-flex">
+                <input class="form-control" name="user_id" id="user_id" placeholder="ID">
+                <label type = "labeltop" for="floatingInput">아이디</label>
+            </div>
+            <br>
+            <div>
+                <checkbox value="remember-me" id="agree4" disabled>
+                <button class="btn btn-sm btn-secondary" type="button" onclick="checkDuplicateId()">아이디 중복 체크</button>
+            </div>
+            <br>
+            <div class="form-floating">
+                <input type="top" class="form-control" name="username" placeholder="Password">
+                <label for="floatingPassword">이름</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" name="pw" placeholder="Password">
+                <label for="floatingPassword">비밀번호</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" name="pwCheck" placeholder="Password">
+                <label for="floatingPassword">비밀번호 확인</label>
+            </div>
+            <div class="form-floating">
+                <input type="mid" class="form-control" name="nickname" placeholder="Password">
+                <label for="floatingPassword">닉네임</label>
+            </div>
+            <div class="form-floating">
+                <input type="mid" class="form-control" name="userbirth" placeholder="Password">
+                <label for="floatingPassword">생년월일</label>
+            </div>
+            <div class="form-floating">
+                <input type="mid" class="form-control" name="userphone" placeholder="Password">
+                <label for="floatingPassword">휴대폰 번호</label>
+            </div>
+            <div class="form-floating">
+                <input type="email" class="form-control" name="userEmail" placeholder="Password">
+                <label for="floatingemail">이메일</label>
+            </div>
+    
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me" id="agree3"> 개인 회원 약관에 동의
+                </label>
+                <label>
+                    <input type="checkbox" value="remember-me" id="agree1"> 개인정보 수집 및 이용에 동의
+                </label>
+                <label>
+                    <input type="checkbox" value="remember-me" id="agree2"> 마케팅 정보 수신 동의
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-dark" type="submit" onclick="test()">가입하기</button>
+            <p class="mt-5 mb-3 text-body-secondary">&copy; 2023–2023</p>
+        </form>
+    
+        <!-- <div class="join-wrapper">
+            <h2>회원가입</h2>
+            <form method="post"  id="join-form">
+                <input type="text" name="user_id" placeholder="아이디">
+                <input type="password" name="pw" placeholder="비밀번호">
+                <input type="password" name="pwCheck" placeholder="비밀번호확인">
+                <input type="text" name="username" placeholder="이름">
+                <input type="text" name="nickname" placeholder="닉네임">
+                <input type="text" name="userbirth" placeholder="생년월일">
+                <input type="text" name="userphone" placeholder="휴대폰">
+                <input type="text" name="userEmail" placeholder="이메일">
+                <label for="remember-check">
+                    <h5><input type="checkbox" id="agree3">개인 회원 약관에 동의</h5>
+                
+                <h5><input type="checkbox" id="agree1">개인정보 수집 및 이용에 동의</h5>
+                <h5><input type="checkbox" id="agree2">마케팅 정보 수신 동의</h5>
+                </label>
+                <input type="button" value="가입 하기" onclick="test()">
+            </form>
+        </div> -->
+    </main>
+</body>
+</html>

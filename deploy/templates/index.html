@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <title>블로그</title>
+
+    <style>
+    button {
+        margin-left: 15px;
+    }
+    /* navbar 상단 */
+    .navbar {
+        height: 200px;
+        background-color: white;
+        display: flex;
+    }
+    .navbar_name1 {
+        margin-left: 100px;
+        color: black;
+        font-size: 20px;
+    }
+    .navbar_item {
+        margin-right: 100px
+    }
+    .navbar_item1 {
+        margin-right: 10px;
+    }
+    /* content */
+    .line {
+        width: 90%;
+        color: black;
+        margin: 0px auto 0 auto;
+    }
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .item {
+        width: 500px;
+        height: 200px;
+        background-color: white;
+        border: solid 2px;
+        margin: 30px auto 0px auto;
+    }
+    div {
+        padding: 10px;
+    }
+    h1 {
+            display: block;
+            font-size: 3em;
+            margin-top: 0.67em;
+            margin-bottom: 0.67em;
+            margin-left: 8%;
+            margin-right: 0;
+            font-weight: bold;
+        }
+    hr {
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        
+    }
+
+    hr.line {
+        width: 6%;
+        border: 0;
+        height: 8px;
+        margin-left: 0px;
+        /* margin-right: auto; */
+    }    
+    #btn {
+        margin-bottom: 40px;
+    }
+    #btn1 {
+        margin-left: 4px;
+    }    
+    </style>
+    <script>
+    $(document).ready(function () {
+        show_content();
+
+        let mytoken = getCookie('mytoken');
+        document.getElementById("loginBtn").style.display = "none";
+        document.getElementById("mypageBtn").style.display = "none";
+        document.getElementById("myboard").style.display = "none"
+
+
+        if(mytoken != null) {
+            document.getElementById("mypageBtn").style.display = "block";
+            document.getElementById("myboard").style.display = "block"
+        } else {
+            document.getElementById("loginBtn").style.display = "block";
+        }
+
+        console.log(getCookie('mytoken'))
+
+    });
+
+      //쿠키 가져오기
+    function getCookie(key) {
+        var result = null;
+        var cookie = document.cookie.split(';');
+        cookie.some(function (item) {
+            // 공백을 제거
+            item = item.replace(' ', '');
+    
+            var dic = item.split('=');
+    
+            if (key === dic[0]) {
+                result = dic[1];
+                return true;    // break;
+            }
+        });
+        return result;
+    }
+
+
+    function show_content() {
+        fetch('/board/show').then((res) => res.json()).then((data) => {
+            let rows = data['result']
+            rows.sort(() => Math.random() - 0.5);
+		$("#content-list").empty()
+            rows.forEach((a) => {
+            let title = a['title']
+            let content = a['content']
+
+            let temp_html = `<div class="item">
+                                        <h2>${title}</h2>
+                                        <h5>${content}</h5>
+                            </div>`
+            $("#content-list").append(temp_html)
+            })
+        })
+    }        
+        function login() {
+            window.location.href = '/index'
+        }
+        function mypage() {
+            window.location.href = '/mypage'
+        }
+        function board() {
+            window.location.href = '/board'
+        }
+    </script>
+</head>
+
+<body>
+    <div class="mytitle">
+        <h1>블로그</h1>
+    </div>
+        <div class="navbar_item" id="btn">
+            <button type="button" class="btn btn-dark" style="float: right"; id="loginBtn" onclick="login()">로그인</button>
+            <button type="button" class="btn btn-dark" style="float: right"; id="mypageBtn" onclick="mypage()">마이페이지</button>
+            <button type="button" class="btn btn-dark" style="float: right"; id="myboard" onclick="board()">새 글 쓰기</button>
+        </div>  
+    </div>
+    <hr>  
+    <div class="container" id="content-list">
+        <div class="item">
+            <h2>제목</h2>
+            <h5>내용</h5>
+        </div>
+        <div class="item">
+            <h2>제목</h2>
+            <h5>내용</h5>
+        </div>
+        <div class="item">
+            <h2>제목</h2>
+            <h5>내용</h5>
+        </div>
+        <div class="item">
+            <h2>제목</h2>
+            <h5>내용</h5>
+        </div>
+    </div>
+</body>
+
+</html>
